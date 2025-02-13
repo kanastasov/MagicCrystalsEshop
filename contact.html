@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Crystals Web Shop</title>
+    <link rel="stylesheet" href="css/contact.css"> <!-- Link to your CSS file -->
+</head>
+
+<body>
+        <div id="header-placeholder"></div>
+
+
+<script>
+    fetch('header.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('header-placeholder').innerHTML = data;
+        })
+        .catch(error => {
+            console.error('Error loading header:', error);
+        });
+</script>
+
+<script>
+    fetch('footer.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('footer-placeholder').innerHTML = data;
+        })
+        .catch(error => {
+            console.error('Error loading footer:', error);
+        });
+</script>
+
+
+
+    <section class="contact-info">
+        <h1>Magic Crystals</h1>
+        <p><strong>Адрес:</strong> Кв.Манастирски Ливади Ул.Казбек 57</p>
+        <p><strong>Емайл:</strong> magiccrystals@gmail.com</p>
+        <p><strong>Телефон:</strong> (+359) 897631393</p>
+        <p><strong>Работно време:</strong> Понеделник-Петък: 9:00 - 18:00</p>
+    </section>
+
+    <section class="contact-form">
+        <h2>Изпратете Запитване</h2>
+        <form action="submit_form.php" method="POST">
+            <label for="name">Вашето име:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Емайл:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="message">Съобщение:</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+
+    <section class="map">
+        <h2>Find Us</h2>
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2625.337195379421!2d23.2838203156745!3d42.65890507916744!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40aa8564690b90ab%3A0x6e979f3b0d33aef6!2sManastirski%20Livadi%2C%20ul.%20%22Kazbek%22%20571618%2C%20Sofia%2C%20Bulgaria!5e0!3m2!1sen!2sus!4v1648731570010!5m2!1sen!2sus"
+            width="600" height="600" style="border:0;" allowfullscreen="" loading="lazy">
+        </iframe>
+    </section>
+        <!-- FOOTER -->
+        <div id="footer-placeholder"></div>
+
+</body>
+
+</html>

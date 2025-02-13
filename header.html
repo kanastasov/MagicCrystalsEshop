@@ -23,7 +23,7 @@
                     <!-- COLLCETIONS ON WEBSITE -->
                     <div id="collection">
                         <div id="clothing"><a href="clothing.html"> Продукти </a></div>
-                        <div id="accessories"><a href="accessories.html"> Контакти </a></div>
+                        <div id="accessories"><a href="contact.html"> Контакти </a></div>
                     </div>
                     <!-- SEARCH SECTION -->
                     <div id="search">
@@ -39,6 +39,19 @@
 
         </section>
     </header>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header-placeholder').innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error loading header:', error);
+                });
+        });
+    </script>
 
 </body>
 </html>
