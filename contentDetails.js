@@ -43,11 +43,11 @@ function dynamicContentDetails(ob)
     detailsDiv.id = 'details'
 
     let h3DetailsDiv = document.createElement('h3')
-    let h3DetailsText = document.createTextNode('Rs ' + ob.price)
+    let h3DetailsText = document.createTextNode(ob.price +  ' Лева' )
     h3DetailsDiv.appendChild(h3DetailsText)
 
     let h3 = document.createElement('h3')
-    let h3Text = document.createTextNode('Description')
+    let h3Text = document.createTextNode('Описание')
     h3.appendChild(h3Text)
 
     let para = document.createElement('p')
@@ -58,7 +58,7 @@ function dynamicContentDetails(ob)
     productPreviewDiv.id = 'productPreview'
 
     let h3ProductPreviewDiv = document.createElement('h3')
-    let h3ProductPreviewText = document.createTextNode('Product Preview')
+    let h3ProductPreviewText = document.createTextNode('Преглед на продукта')
     h3ProductPreviewDiv.appendChild(h3ProductPreviewText)
     productPreviewDiv.appendChild(h3ProductPreviewDiv)
 
@@ -144,4 +144,14 @@ let httpRequest = new XMLHttpRequest()
 }
 
 httpRequest.open('GET', 'https://5d76bf96515d1a0014085cf9.mockapi.io/product/'+id, true)
+
+// fetch(`http://localhost:3000/api/products/${productId}`)
+//     .then(response => response.json())
+//     .then(product => {
+//         console.log("Product Details:", product);
+//         // Use product data to update the UI
+//     })
+//     .catch(error => console.error("Error fetching product:", error));
+
+
 httpRequest.send()  
