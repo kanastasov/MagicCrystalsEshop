@@ -30,7 +30,7 @@ function dynamicCartSection(ob,itemCounter)
     boxDiv.appendChild(boxh3)
 
     let boxh4 = document.createElement('h4')
-    let h4Text = document.createTextNode('Amount: Rs' + ob.price)
+    let h4Text = document.createTextNode(ob.price +  ' Лева')
     boxh4.appendChild(h4Text)
     boxDiv.appendChild(boxh4)
 
@@ -94,46 +94,59 @@ buttonTag.onclick = function()
 // BACKEND CALL
 let httpRequest = new XMLHttpRequest()
 let totalAmount = 0
-httpRequest.onreadystatechange = function()
-{
-    if(this.readyState === 4)
-    {
-        if(this.status == 200)
-        {
-            // console.log('call successful');
-            contentTitle = JSON.parse(this.responseText)
+httpRequest.onreadystatechange = function () {
+    if (this.readyState === 4) {
+        if (this.status == 200) {
+            contentTitle = JSON.parse(this.responseText);
+            // console.log("Fetched Products:", contentTitle); // Debugging
 
-            let counter = Number(document.cookie.split(',')[1].split('=')[1])
-            document.getElementById("totalItem").innerHTML = ('Total Items: ' + counter)
+         
+            let counter = Number(document.cookie.split(',')[1]?.split('=')[1] || 0);
+            document.getElementById("totalItem").innerHTML = ('Total Items: ' + counter);
 
-            let item = document.cookie.split(',')[0].split('=')[1].split(" ")
-            console.log(counter)
-            console.log(item)
+            // let item = document.cookie.split(',')[0]?.split('=')[1]?.split(" ") || [];
+            let item = document.cookie.split(',')[1]?.split('=')[1]?.split(" ") || [];
 
-            let i;
-            let totalAmount = 0
-            for(i=0; i<counter; i++)
-            {
-                let itemCounter = 1
-                for(let j = i+1; j<counter; j++)
-                {   
-                    if(Number(item[j]) == Number(item[i]))
-                    {
-                        itemCounter +=1;
+            console.log("Item List:", item);
+ console.log("Document Cookie:", document.cookie);
+
+
+            let totalAmount = 0;
+            for (let i = 0; i < counter; i++) {
+       
+                let itemCounter = 1;
+                for (let j = i + 1; j < counter; j++) {   
+                    if (Number(item[j]) === Number(item[i])) {
+                        itemCounter += 1;
                     }
                 }
-                totalAmount += Number(contentTitle[item[i]-1].price) * itemCounter
-                dynamicCartSection(contentTitle[item[i]-1],itemCounter)
-                i += (itemCounter-1)
+
+                // let product = contentTitle.find(p => p.id == item[i]);
+                let product = contentTitle.find(p => String(p.id) === String(item[i].trim())); 
+                if (!product) {
+                    console.error("Product not found for ID:", item[i]);
+                }
+
+            console.log("Fetched Products:", contentTitle); 
+            // console.log("Requested Item", item);
+            console.log("product ", product);
+            console.log("itemCounter  ", itemCounter);
+
+                if (product) {
+                    totalAmount += Number(product.price) * itemCounter;
+                    dynamicCartSection(product, itemCounter);
+                } else {
+                    console.error("Product not found for ID:", item[i]);
+                }
+
+                i += (itemCounter - 1);
             }
-            amountUpdate(totalAmount)
+            amountUpdate(totalAmount);
+        } else {
+            console.log("API call failed!");
         }
     }
-        else
-        {
-            console.log('call failed!');
-        }
-}
+};
 
 httpRequest.open('GET', 'https://5d76bf96515d1a0014085cf9.mockapi.io/product', true)
 httpRequest.send()
