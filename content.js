@@ -1,4 +1,4 @@
-// console.clear();
+
 
 let contentTitle;
 
@@ -55,7 +55,7 @@ let containerAccessories = document.getElementById("containerAccessories");
 // BACKEND CALLING
 
 let httpRequest = new XMLHttpRequest();
-
+ 
 httpRequest.onreadystatechange = function() {
   if (this.readyState === 4) {
     if (this.status == 200) {
@@ -67,7 +67,7 @@ httpRequest.onreadystatechange = function() {
       }
       for (let i = 0; i < contentTitle.length; i++) {
         if (contentTitle[i].isAccessory) {
-          console.log(contentTitle[i]);
+          // console.log(contentTitle[i]);
           if(containerAccessories) {
             containerAccessories.appendChild(
             dynamicClothingSection(contentTitle[i])
@@ -75,7 +75,7 @@ httpRequest.onreadystatechange = function() {
           }
          
         } else {
-          console.log(contentTitle[i]);
+          // console.log(contentTitle[i]);
           if(containerClothing) {
              containerClothing.appendChild( dynamicClothingSection(contentTitle[i]));
           }else {
@@ -91,9 +91,47 @@ httpRequest.onreadystatechange = function() {
 };
 // httpRequest.open("GET", "http://localhost:3000/api/products", true);
 
+ 
+
+
+fetch("http://127.0.0.1:8080/api/products")
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+    })
+    .catch(error => console.error("Error fetching products:", error));
+
+
+
+function displayProducts(products) {
+    let containerClothing = document.getElementById("containerClothing");
+    let containerAccessories = document.getElementById("containerAccessories");
+
+    products.forEach(product => {
+        if (product.isAccessory) {
+            if (containerAccessories) {
+                containerAccessories.appendChild(dynamicClothingSection(product));
+            } else {
+                console.error("containerAccessories not found!");
+            }
+        } else {
+            if (containerClothing) {
+                containerClothing.appendChild(dynamicClothingSection(product));
+            } else {
+                console.error("containerClothing not found!");
+            }
+        }
+    });
+}
+
+
+
 httpRequest.open(
   "GET",
   "https://5d76bf96515d1a0014085cf9.mockapi.io/product",
   true
 );
+
+
+
 httpRequest.send();
