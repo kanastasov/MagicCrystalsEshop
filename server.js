@@ -10,7 +10,7 @@ app.use(express.json());
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",  // Change if your MySQL username is different
-    password: "root",  // Change if you have a MySQL password
+    password: "ROOT",  // Change if you have a MySQL password
     database: "magiccrystals",  // Replace with your actual database name
 });
 
@@ -29,29 +29,17 @@ app.get("/api/products", (req, res) => {
         if (err) {
             return res.status(500).json({ error: "Database query failed" });
         }
+    //  console.log(res)
+
         res.json(results);
     });
+
+//   
+    // return "Hi";
 });
 
-// API Endpoint to Fetch a Single Product by ID
-app.get("/api/products/:id", (req, res) => {
-    const productId = req.params.id; // Get the ID from the URL
-
-    const sqlQuery = "SELECT * FROM products WHERE id = ?";
-    db.query(sqlQuery, [productId], (err, results) => {
-        if (err) {
-            return res.status(500).json({ error: "Database query failed" });
-        }
-
-        if (results.length === 0) {
-            return res.status(404).json({ error: "Product not found" });
-        }
-
-        res.json(results[0]); // Send the first matching product
-    });
-});
 // Start the Server
-const PORT = process.env.PORT || 8080;
+const PORT = 8080;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

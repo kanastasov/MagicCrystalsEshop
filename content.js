@@ -55,7 +55,7 @@ let containerAccessories = document.getElementById("containerAccessories");
 // BACKEND CALLING
 
 let httpRequest = new XMLHttpRequest();
- 
+//  console.log('httpRequest ' + httpRequest)
 httpRequest.onreadystatechange = function() {
   if (this.readyState === 4) {
     if (this.status == 200) {
@@ -93,13 +93,13 @@ httpRequest.onreadystatechange = function() {
 
  
 
-
-fetch("http://127.0.0.1:8080/api/products")
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-    })
-    .catch(error => console.error("Error fetching products:", error));
+// fetch("http://localhost:8080/api/products")
+//   .then(response => {
+//     console.log("Response Status:", response.status);
+//     return response.text();
+//   })
+//   .then(data => console.log("Raw Response:", data))
+//   .catch(error => console.error("Error fetching products:", error));
 
 
 
@@ -128,7 +128,7 @@ function displayProducts(products) {
 
 httpRequest.open(
   "GET",
-  "https://5d76bf96515d1a0014085cf9.mockapi.io/product",
+  "http://localhost:8080/api/products",
   true
 );
 
