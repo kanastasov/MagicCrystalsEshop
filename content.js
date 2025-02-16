@@ -89,18 +89,6 @@ httpRequest.onreadystatechange = function() {
     }
   }
 };
-// httpRequest.open("GET", "http://localhost:3000/api/products", true);
-
- 
-
-// fetch("http://localhost:8080/api/products")
-//   .then(response => {
-//     console.log("Response Status:", response.status);
-//     return response.text();
-//   })
-//   .then(data => console.log("Raw Response:", data))
-//   .catch(error => console.error("Error fetching products:", error));
-
 
 
 function displayProducts(products) {

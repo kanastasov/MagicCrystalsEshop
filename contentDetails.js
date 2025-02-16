@@ -63,20 +63,20 @@ function dynamicContentDetails(ob)
     productPreviewDiv.appendChild(h3ProductPreviewDiv)
 
     let i;
-    for(i=0; i<ob.photos.length; i++)
-    {
-        let imgTagProductPreviewDiv = document.createElement('img')
-        imgTagProductPreviewDiv.id = 'previewImg'
-        imgTagProductPreviewDiv.src = ob.photos[i]
-        imgTagProductPreviewDiv.onclick = function(event)
-        {
-            console.log("clicked" + this.src)
-            imgTag.src = ob.photos[i]
-            document.getElementById("imgDetails").src = this.src 
+    // for(i=0; i<ob.photos.length; i++)
+    // {
+    //     let imgTagProductPreviewDiv = document.createElement('img')
+    //     imgTagProductPreviewDiv.id = 'previewImg'
+    //     imgTagProductPreviewDiv.src = ob.photos[i]
+    //     imgTagProductPreviewDiv.onclick = function(event)
+    //     {
+    //         console.log("clicked" + this.src)
+    //         imgTag.src = ob.photos[i]
+    //         document.getElementById("imgDetails").src = this.src 
             
-        }
-        productPreviewDiv.appendChild(imgTagProductPreviewDiv)
-    }
+    //     }
+    //     productPreviewDiv.appendChild(imgTagProductPreviewDiv)
+    // }
 
     let buttonDiv = document.createElement('div')
     buttonDiv.id = 'button'
@@ -122,7 +122,6 @@ function dynamicContentDetails(ob)
 
 
 // BACKEND CALLING
-
 let httpRequest = new XMLHttpRequest()
 {
     httpRequest.onreadystatechange = function()
@@ -143,15 +142,19 @@ let httpRequest = new XMLHttpRequest()
     }
 }
 
-httpRequest.open('GET', 'https://5d76bf96515d1a0014085cf9.mockapi.io/product/'+id, true)
+httpRequest.open('GET', 'http://localhost:8080/api/products/'+id, true)
 
-// fetch(`http://localhost:3000/api/products/${productId}`)
-//     .then(response => response.json())
-//     .then(product => {
-//         console.log("Product Details:", product);
-//         // Use product data to update the UI
-//     })
-//     .catch(error => console.error("Error fetching product:", error));
+
+
+// const fs = require('fs');
+// const imageData = fs.readFileSync('path/to/image.jpg');  // read the file as binary
+// const mimeType = 'image/jpeg'; // adjust if needed
+
+// const sql = "INSERT INTO images (image_data, mime_type) VALUES (?, ?)";
+// db.query(sql, [imageData, mimeType], (err, results) => {
+//   if (err) throw err;
+//   console.log("Image inserted with ID:", results.insertId);
+// });
 
 
 httpRequest.send()  

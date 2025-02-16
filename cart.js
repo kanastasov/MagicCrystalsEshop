@@ -108,7 +108,7 @@ httpRequest.onreadystatechange = function () {
             let item = document.cookie.split(',')[1]?.split('=')[1]?.split(" ") || [];
 
             console.log("Item List:", item);
- console.log("Document Cookie:", document.cookie);
+            console.log("Document Cookie:", document.cookie);
 
 
             let totalAmount = 0;
