@@ -19,9 +19,42 @@ function dynamicCartSection(ob,itemCounter)
     boxDiv.id = 'box'
     boxContainerDiv.appendChild(boxDiv)
 
-    let boxImg = document.createElement('img')
-    boxImg.src = ob.preview
-    boxDiv.appendChild(boxImg)
+
+
+
+
+    // let boxImg = document.createElement('img')
+    // boxImg.src = ob.preview
+
+  let imgTag = document.createElement("img");
+
+  // Fetch the image as a Blob and set it correctly
+  fetch(`http://localhost:8080/api/image/${ob.id}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Failed to load image");
+      }
+      return response.blob();
+    })
+    .then(blob => {
+      const imageUrl = URL.createObjectURL(blob);
+      imgTag.src = imageUrl;
+      imgTag.alt = ob.name;
+
+    })
+    .catch(error => console.error("Error loading image:", error));
+          boxDiv.appendChild(imgTag)
+
+
+
+
+
+
+
+    // boxDiv.appendChild(boxImg)
+
+
+    
 
     let boxh3 = document.createElement('h3')
     let h3Text = document.createTextNode(ob.name + ' × ' + itemCounter)
@@ -98,7 +131,7 @@ httpRequest.onreadystatechange = function () {
     if (this.readyState === 4) {
         if (this.status == 200) {
             contentTitle = JSON.parse(this.responseText);
-            // console.log("Fetched Products:", contentTitle); // Debugging
+            console.log("Fetched Products:", contentTitle); // Debugging
 
          
             let counter = Number(document.cookie.split(',')[1]?.split('=')[1] || 0);
@@ -109,6 +142,11 @@ httpRequest.onreadystatechange = function () {
 
             console.log("Item List:", item);
             console.log("Document Cookie:", document.cookie);
+
+console.log("contentTitle:", contentTitle);
+console.log("Type of contentTitle:", typeof contentTitle);
+console.log("Is contentTitle an array?", Array.isArray(contentTitle));
+
 
 
             let totalAmount = 0;
@@ -122,10 +160,18 @@ httpRequest.onreadystatechange = function () {
                 }
 
                 // let product = contentTitle.find(p => p.id == item[i]);
-                let product = contentTitle.find(p => String(p.id) === String(item[i].trim())); 
-                if (!product) {
-                    console.error("Product not found for ID:", item[i]);
-                }
+                // let product = contentTitle.find(p => String(p.id) === String(item[i].trim())); 
+                // if (!product) {
+                //     console.error("Product not found for ID:", item[i]);
+                // }
+
+                let product;
+if (Array.isArray(contentTitle)) {
+    product = contentTitle.find(p => String(p.id) === String(item[i].trim()));
+} else {
+    product = contentTitle; // Directly assign if it's a single object
+}
+console.log("Found product:", product);
 
             console.log("Fetched Products:", contentTitle); 
             // console.log("Requested Item", item);
@@ -148,7 +194,29 @@ httpRequest.onreadystatechange = function () {
     }
 };
 
-httpRequest.open('GET', 'https://5d76bf96515d1a0014085cf9.mockapi.io/product', true)
+function getCookieValue(name) {
+    let cookies = document.cookie.split("; "); // Split cookies into key-value pairs
+    for (let cookie of cookies) {
+        let [key, value] = cookie.split("="); // Split key and value
+        if (key === name) {
+            return decodeURIComponent(value); // Return decoded value
+        }
+    }
+    return null; // Return null if cookie not found
+}
+
+// Example usage:
+let userId = getCookieValue("id");
+console.log("User ID from cookie:", userId);
+
+
+let productId = localStorage.getItem('productId');
+console.log(productId);  // Logs 123 (or null if it's not set)
+
+
+httpRequest.open('GET', 'http://localhost:8080/api/products/'+productId, true)
+
+// httpRequest.open('GET', 'https://5d76bf96515d1a0014085cf9.mockapi.io/product', true)
 httpRequest.send()
 
 

@@ -38,7 +38,7 @@ app.get("/api/products", (req, res) => {
 app.get("/api/products/:id", (req, res) => {
     const productId = req.params.id; // Get the ID from the URL
 
-    const sqlQuery = "SELECT * FROM product_photos WHERE id = ?";
+    const sqlQuery = "SELECT * FROM products WHERE id = ?";
     db.query(sqlQuery, [productId], (err, results) => {
         if (err) {
             return res.status(500).json({ error: "Database query failed" });
