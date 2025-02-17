@@ -78,18 +78,25 @@ app.get("/api/order/:id", (req, res) => {
 const storage = multer.memoryStorage(); // Store in memory
 const upload = multer({ storage: storage });
 
-// API to upload an image
-app.post("/api/upload", upload.single("image"), (req, res) => {
-    console.log("image upload called")
-    const image = req.file.buffer; // Read image as buffer
 
-    db.query("INSERT INTO images (image_data) VALUES (?)", [image], (err, result) => {
+
+/// POST Route to upload the image
+app.post("/api/upload", upload.single("image"), (req, res) => {
+    console.log('Upload img')
+    if (!req.file) {
+        return res.status(400).json({ error: "No file uploaded" });
+    }
+
+    const image = req.file.buffer;  // Image binary data
+    const mimeType = req.file.mimetype; // MIME type (e.g., "image/jpeg", "image/png")
+
+    // Insert image data and MIME type into the database
+    db.query("INSERT INTO images (image_data, mime_type) VALUES (?, ?)", [image, mimeType], (err, result) => {
         if (err) {
             console.error("Error inserting image:", err);
-            res.status(500).json({ error: "Database error" });
-        } else {
-            res.json({ message: "Image uploaded successfully", id: result.insertId });
+            return res.status(500).json({ error: "Database error" });
         }
+        res.json({ message: "Image uploaded successfully", id: result.insertId });
     });
 });
 
