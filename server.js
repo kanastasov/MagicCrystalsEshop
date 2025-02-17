@@ -83,15 +83,20 @@ const upload = multer({ storage: storage });
 /// POST Route to upload the image
 app.post("/api/upload", upload.single("image"), (req, res) => {
     console.log('Upload img')
+    console.log(req)
     if (!req.file) {
         return res.status(400).json({ error: "No file uploaded" });
     }
 
+
+    const name = req.body.name;
+    const description = req.body.description;
+    const price = req.body.price;
     const image = req.file.buffer;  // Image binary data
     const mimeType = req.file.mimetype; // MIME type (e.g., "image/jpeg", "image/png")
 
     // Insert image data and MIME type into the database
-    db.query("INSERT INTO images (image_data, mime_type) VALUES (?, ?)", [image, mimeType], (err, result) => {
+    db.query("INSERT INTO products (name,description,price, image_data, mime_type) VALUES (?, ?, ?,?,?)", [name,description,price,image, mimeType], (err, result) => {
         if (err) {
             console.error("Error inserting image:", err);
             return res.status(500).json({ error: "Database error" });
@@ -104,7 +109,7 @@ app.post("/api/upload", upload.single("image"), (req, res) => {
 app.get("/api/image/:id", (req, res) => {
     const id = req.params.id;
 
-    db.query("SELECT image_data FROM images WHERE id = ?", [id], (err, result) => {
+    db.query("SELECT image_data FROM products WHERE id = ?", [id], (err, result) => {
         if (err || result.length === 0) {
             return res.status(404).json({ error: "Image not found" });
         }
