@@ -1,6 +1,7 @@
 const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
+const multer = require("multer");
 
 const app = express();
 app.use(cors()); // Enable CORS for frontend access
@@ -52,7 +53,7 @@ app.get("/api/products/:id", (req, res) => {
 
     
 });
-
+ 
 
 app.get("/api/order/:id", (req, res) => {
     const orderId = req.params.id; // Get the ID from the URL
@@ -72,6 +73,40 @@ app.get("/api/order/:id", (req, res) => {
 
     
 });
+
+// Multer for handling file uploads
+const storage = multer.memoryStorage(); // Store in memory
+const upload = multer({ storage: storage });
+
+// API to upload an image
+app.post("/api/upload", upload.single("image"), (req, res) => {
+    console.log("image upload called")
+    const image = req.file.buffer; // Read image as buffer
+
+    db.query("INSERT INTO images (image_data) VALUES (?)", [image], (err, result) => {
+        if (err) {
+            console.error("Error inserting image:", err);
+            res.status(500).json({ error: "Database error" });
+        } else {
+            res.json({ message: "Image uploaded successfully", id: result.insertId });
+        }
+    });
+});
+
+// API to retrieve an image
+app.get("/api/image/:id", (req, res) => {
+    const id = req.params.id;
+
+    db.query("SELECT image_data FROM images WHERE id = ?", [id], (err, result) => {
+        if (err || result.length === 0) {
+            return res.status(404).json({ error: "Image not found" });
+        }
+        
+        res.setHeader("Content-Type", "image/jpeg"); // Set correct content type
+        res.send(result[0].image_data);
+    });
+});
+
 
 // Start the Server
 const PORT = 8080;

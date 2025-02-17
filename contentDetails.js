@@ -157,4 +157,6 @@ httpRequest.open('GET', 'http://localhost:8080/api/products/'+id, true)
 // });
 
 
+
+
 httpRequest.send()  

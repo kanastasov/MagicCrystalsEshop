@@ -30,5 +30,5 @@ let id = location.search.split('?')[1]
 
 let httpRequest = new XMLHttpRequest()
 
-httpRequest.open('GET', 'http://localhost:8080/api/order/'+id, true)
+httpRequest.open('GET', 'http://localhost:8080/api/order/' + id, true)
 httpRequest.send()  
