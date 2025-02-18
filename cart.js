@@ -4,12 +4,34 @@ console.clear();
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let totalAmount = 0;
 
+// Retrieve user details from localStorage (assuming they are stored here)
+let userName = localStorage.getItem("userName") || "Anonymous";
+let userEmail = localStorage.getItem("userEmail") || "Not provided";
+let userPhone = localStorage.getItem("userPhone") || "Not provided";
 // Update cart badge count
 document.getElementById("badge").innerHTML = cart.reduce((sum, item) => sum + item.quantity, 0);
 
 let cartContainer = document.getElementById('cartContainer');
 let boxContainerDiv = document.createElement('div');
 boxContainerDiv.id = 'boxContainer';
+
+// Function to update localStorage and re-render the cart
+function updateCart(newCart) {
+    localStorage.setItem("cart", JSON.stringify(newCart));
+    location.reload(); // Refresh the page to reflect updates
+}
+
+// Function to remove an item from the cart
+function removeItem(productId) {
+    let updatedCart = cart.map(item => {
+        if (item.id === productId) {
+            item.quantity -= 1; // Decrease quantity
+        }
+        return item;
+    }).filter(item => item.quantity > 0); // Remove if quantity is zero
+
+    updateCart(updatedCart);
+}
 
 // Function to create dynamic cart items
 function dynamicCartSection(item) {
@@ -45,6 +67,15 @@ function dynamicCartSection(item) {
     let h4Text = document.createTextNode(item.price + ' Лева');
     boxh4.appendChild(h4Text);
     boxDiv.appendChild(boxh4);
+
+    // Remove button
+    let removeButton = document.createElement('button');
+    removeButton.innerText = "Remove";
+    removeButton.className = "remove-btn";
+    removeButton.onclick = function () {
+        removeItem(item.id);
+    };
+    boxDiv.appendChild(removeButton);
 
     cartContainer.appendChild(boxContainerDiv);
 }
@@ -84,10 +115,44 @@ buttonLink.href = '/orderPlaced.html';
 buttonTag.appendChild(buttonLink);
 
 let buttonText = document.createTextNode('Place Order');
-buttonTag.onclick = function () {
-    console.log("Order placed");
-    localStorage.removeItem("cart"); // Clear cart after placing order
-    location.reload(); // Refresh page to show an empty cart
+buttonTag.onclick = async function () {
+    console.log("Placing order...");
+
+    if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+    }
+
+    // Prepare order details
+    let orderDetails = {
+        items: cart,
+        totalAmount: totalAmount,
+        userName: userName,
+        email: userEmail,
+        userPhone: userPhone
+    };
+
+    try {
+        let response = await fetch("http://localhost:8080/api/send-order-email", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(orderDetails)
+        });
+
+        let result = await response.json();
+        if (response.ok) {
+            alert("Order placed successfully! A confirmation email has been sent.");
+            localStorage.removeItem("cart"); // Clear cart
+            location.reload();
+        } else {
+            alert("Failed to place order: " + result.message);
+        }
+    } catch (error) {
+        console.error("Error sending order:", error);
+        alert("Something went wrong. Please try again.");
+    }
 };
 buttonTag.appendChild(buttonText);
 
