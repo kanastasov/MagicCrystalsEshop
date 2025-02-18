@@ -7,11 +7,10 @@ body
 {
     padding: 90px 50px;
 }
-#cartContainer
-{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 20px;
+#cartContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 img
 {
@@ -20,12 +19,16 @@ img
     border-radius: 10px;
     margin-right: 50px;
 }
+h1,h3{
+    margin: 20px 110px
+}
 #boxContainer
 {
+     margin: 20px 90px;
     display: grid;
     grid-gap: 20px;
     padding: 20px;
-    width: 100%;
+    width: 40%;
     /* float: left; */
 }
 #box
@@ -41,14 +44,14 @@ img
 {
     box-shadow: 0px 1px 3px 2px rgb(185, 185, 185);
 }
-#totalContainer
-{
-    width: 50%;
+#totalContainer {
+    width: 40%;
     padding: 20px;
-    margin: auto;
+    margin: 20px 110px;    
     background-color: white;
     border-radius: 10px;
     box-shadow: 1px 2px 6px 2px rgb(219, 219, 219);
+    clear: both;
 }
 #totalContainer:hover
 {
@@ -111,4 +114,72 @@ button a:focus
         padding: 20px;
         width: 80%;
     }
+}
+
+/* Add basic styling for the input container */
+#userDetails {
+    margin: 20px 110px;
+    padding: 20px;
+    max-width: 500px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for the heading */
+#userDetails h2 {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Style for the input fields */
+#userDetails input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+    /* Include padding and border in width calculation */
+}
+
+/* Style for the input fields when focused */
+#userDetails input:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+/* Style for error messages */
+#userDetails span {
+    display: block;
+    margin-top: 5px;
+    font-size: 14px;
+    color: red;
+}
+
+/* Add some spacing around the input fields */
+#userDetails input:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+/* Optional: Style the submit button to match the inputs */
+#button button {
+    background-color: #007BFF;
+    color: white;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+/* Change button color on hover */
+#button button:hover {
+    background-color: #0056b3;
 }
