@@ -59,18 +59,11 @@ function dynamicContentDetails(ob)
     let detailsDiv = document.createElement('div')
     detailsDiv.id = 'details'
    let h3 = document.createElement('h3')
-    // let h3Text = document.createTextNode('Описание')
-    // h3.appendChild(h3Text)
+
     let h3DetailsDiv = document.createElement('h3')
 
     let h3DetailsText = document.createTextNode(ob.price +  ' Лева' )
     h3DetailsDiv.appendChild(h3DetailsText)
-
-    // let h3Text = document.createTextNode('Описание')
-
-    // let para = document.createElement('p')
-    // let paraText = document.createTextNode(ob.description)
-    // para.appendChild(paraText)
 
     let productPreviewDiv = document.createElement('div')
     productPreviewDiv.id = 'productPreview'
@@ -81,21 +74,7 @@ function dynamicContentDetails(ob)
     productPreviewDiv.appendChild(h3ProductPreviewDiv)
 
     let i;
-    // for(i=0; i<ob.photos.length; i++)
-    // {
-    //     let imgTagProductPreviewDiv = document.createElement('img')
-    //     imgTagProductPreviewDiv.id = 'previewImg'
-    //     imgTagProductPreviewDiv.src = ob.photos[i]
-    //     imgTagProductPreviewDiv.onclick = function(event)
-    //     {
-    //         console.log("clicked" + this.src)
-    //         imgTag.src = ob.photos[i]
-    //         document.getElementById("imgDetails").src = this.src 
-            
-    //     }
-    //     productPreviewDiv.appendChild(imgTagProductPreviewDiv)
-    // }
-
+ 
     let buttonDiv = document.createElement('div')
     buttonDiv.id = 'button'
 
@@ -103,19 +82,41 @@ function dynamicContentDetails(ob)
     buttonDiv.appendChild(buttonTag)
 
     buttonText = document.createTextNode('Add to Cart')
-    buttonTag.onclick  =   function()
-    {
-        let order = id+" "
-        let counter = 1
-        if(document.cookie.indexOf(',counter=')>=0)
-        {
-            order = id + " " + document.cookie.split(',')[0].split('=')[1]
-            counter = Number(document.cookie.split(',')[1].split('=')[1]) + 1
-        }
-        document.cookie = "orderId=" + order + ",counter=" + counter
-        document.getElementById("badge").innerHTML = counter
-        console.log(document.cookie)
+    buttonTag.onclick = function() {
+    let order = id + " ";
+    let counter = 1;
+
+    if (document.cookie.indexOf(',counter=') >= 0) {
+        order = id + " " + document.cookie.split(',')[0].split('=')[1];
+        counter = Number(document.cookie.split(',')[1].split('=')[1]) + 1;
     }
+
+    document.cookie = "orderId=" + order + ",counter=" + counter;
+    document.getElementById("badge").innerHTML = counter;
+
+    // Retrieve the existing cart from localStorage
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    // Check if the product is already in the cart
+    let existingProduct = cart.find(item => item.id === productId);
+
+    if (existingProduct) {
+        existingProduct.quantity += 1; // Increase quantity if the product is already in the cart
+    } else {
+        cart.push({
+            id: productId,
+            name: ob.name,
+            price: ob.price,
+            description: ob.description,
+            quantity: 1
+        });
+    }
+
+    // Save updated cart back to localStorage
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    console.log("Cart updated:", cart);
+};
     buttonTag.appendChild(buttonText)
 
 
@@ -150,6 +151,7 @@ let httpRequest = new XMLHttpRequest()
             console.log('connected!!');
             let contentDetails = JSON.parse(this.responseText)
             {
+              console.log(contentDetails);
                 productId = contentDetails.id
                 console.log(productId);
                 localStorage.setItem('productId', productId);
@@ -165,19 +167,6 @@ let httpRequest = new XMLHttpRequest()
 }
 
 httpRequest.open('GET', 'http://localhost:8080/api/products/'+id, true)
-
-
-
-// const fs = require('fs');
-// const imageData = fs.readFileSync('path/to/image.jpg');  // read the file as binary
-// const mimeType = 'image/jpeg'; // adjust if needed
-
-// const sql = "INSERT INTO images (image_data, mime_type) VALUES (?, ?)";
-// db.query(sql, [imageData, mimeType], (err, results) => {
-//   if (err) throw err;
-//   console.log("Image inserted with ID:", results.insertId);
-// });
-
 
 
 
