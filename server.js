@@ -94,11 +94,16 @@ app.post("/api/upload", upload.single("image"), (req, res) => {
     const name = req.body.name;
     const description = req.body.description;
     const price = req.body.price;
+    const type = req.body.type;
+
     const image = req.file.buffer;  // Image binary data
-    const mimeType = req.file.mimetype; // MIME type (e.g., "image/jpeg", "image/png")
+    const mimeType = req.file.mimetype; 
+    
+    
+    // MIME type (e.g., "image/jpeg", "image/png")
 
     // Insert image data and MIME type into the database
-    db.query("INSERT INTO products (name,description,price, image_data, mime_type) VALUES (?, ?, ?,?,?)", [name,description,price,image, mimeType], (err, result) => {
+    db.query("INSERT INTO products (name,description,price,type, image_data, mime_type) VALUES (?, ?, ?,?,?,?)", [name,description,price,type,image, mimeType], (err, result) => {
         if (err) {
             console.error("Error inserting image:", err);
             return res.status(500).json({ error: "Database error" });
