@@ -50,6 +50,25 @@ app.get("/api/preview", (req, res) => {
 });
 
 
+// API Endpoint to Fetch Products by Type
+app.get("/api/products/type/:type", (req, res) => {
+    const type = req.params.type; // Extract type dynamically from URL
+
+    const sqlQuery = "SELECT * FROM products WHERE LOWER(type) = LOWER(?)";
+    db.query(sqlQuery, [type], (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: "Database query failed" });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ error: "No products found for this type" });
+        }
+
+        res.json(results); // Return all matching products
+    });
+});
+
+
 // API Endpoint to Fetch a Single Product by ID
 app.get("/api/products/:id", (req, res) => {
     const productId = req.params.id; // Get the ID from the URL
