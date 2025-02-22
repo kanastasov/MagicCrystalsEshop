@@ -36,12 +36,47 @@ app.get("/api/products", (req, res) => {
     });
 });
 
+
+
+// API Endpoint to Fetch All Products
+app.get("/api/preview", (req, res) => {
+    const sqlQuery = "SELECT * FROM preview";
+    db.query(sqlQuery, (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: "Database query failed" });
+        }
+        res.json(results);
+    });
+});
+
+
 // API Endpoint to Fetch a Single Product by ID
 app.get("/api/products/:id", (req, res) => {
     const productId = req.params.id; // Get the ID from the URL
 
     const sqlQuery = "SELECT * FROM products WHERE id = ?";
     db.query(sqlQuery, [productId], (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: "Database query failed" });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ error: "Product not found" });
+        }
+
+        res.json(results[0]); 
+    });
+
+    
+});
+
+
+// API Endpoint to Fetch a Single preview by ID
+app.get("/api/preview/:id", (req, res) => {
+    const previewId = req.params.id; // Get the ID from the URL
+
+    const sqlQuery = "SELECT * FROM preview WHERE id = ?";
+    db.query(sqlQuery, [previewId], (err, results) => {
         if (err) {
             return res.status(500).json({ error: "Database query failed" });
         }
@@ -82,7 +117,7 @@ const upload = multer({ storage: storage });
 
 
 
-/// POST Route to upload the image
+/// POST Route to upload image
 app.post("/api/upload", upload.single("image"), (req, res) => {
     console.log('Upload img')
     console.log(req)
@@ -99,8 +134,6 @@ app.post("/api/upload", upload.single("image"), (req, res) => {
     const image = req.file.buffer;  // Image binary data
     const mimeType = req.file.mimetype; 
     
-    
-    // MIME type (e.g., "image/jpeg", "image/png")
 
     // Insert image data and MIME type into the database
     db.query("INSERT INTO products (name,description,price,type, image_data, mime_type) VALUES (?, ?, ?,?,?,?)", [name,description,price,type,image, mimeType], (err, result) => {
@@ -112,11 +145,55 @@ app.post("/api/upload", upload.single("image"), (req, res) => {
     });
 });
 
+/// POST Route to upload preview
+app.post("/api/upload/preview", upload.single("image"), (req, res) => {
+    console.log('Upload img')
+    console.log(req)
+    if (!req.file) {
+        return res.status(400).json({ error: "No file uploaded" });
+    }
+
+
+    const name = req.body.name;
+    const description = req.body.description;
+    const type = req.body.type;
+
+    const image = req.file.buffer;  // Image binary data
+    const mimeType = req.file.mimetype; 
+    
+    
+    // MIME type (e.g., "image/jpeg", "image/png")
+
+    // Insert image data and MIME type into the database
+    db.query("INSERT INTO preview (name,description,type, image_data, mime_type) VALUES (?, ?, ?,?,?)", [name,description,type,image, mimeType], (err, result) => {
+        if (err) {
+            console.error("Error Creating preview", err);
+            return res.status(500).json({ error: "Database error" });
+        }
+        res.json({ message: "Creating created successfully", id: result.insertId });
+    });
+});
+
 // API to retrieve an image
 app.get("/api/image/:id", (req, res) => {
     const id = req.params.id;
 
     db.query("SELECT image_data FROM products WHERE id = ?", [id], (err, result) => {
+        if (err || result.length === 0) {
+            return res.status(404).json({ error: "Image not found" });
+        }
+        
+        res.setHeader("Content-Type", "image/jpeg"); // Set correct content type
+        res.send(result[0].image_data);
+    });
+});
+
+
+// API to retrieve an image
+app.get("/api/image/preview/:id", (req, res) => {
+    const id = req.params.id;
+
+    db.query("SELECT image_data FROM preview WHERE id = ?", [id], (err, result) => {
         if (err || result.length === 0) {
             return res.status(404).json({ error: "Image not found" });
         }
