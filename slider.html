@@ -12,41 +12,39 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css">
     <style>
-        body
-        {
-            margin: 0;
-        }
-        #containerSlider
-        {
-            margin: auto;
-            width: 90%;
-            text-align: center;
-            padding-top: 100px;
-            /* padding-left: 600px; */
+     body {
+    margin: 0;
+}
 
-            box-sizing: border-box;
-        }
-        #containerSlider img
-        {
-            width: 600px;
-            height: 186px;
-            text-align: center;
-            align-content: center;
-        }
-        @media(max-width: 732px)
-        {
-            #containerSlider img
-            {
-                height: 12em;
-            }
-        }
-        @media(max-width: 500px)
-        {
-            #containerSlider img
-            {
-                height: 10em;
-            }
-        }
+#containerSlider {
+    margin: auto;
+    width: 90%;
+    text-align: center;
+    padding-top: 100px;
+    box-sizing: border-box;
+    display: flex;           /* Use Flexbox for centering content */
+    justify-content: center; /* Center images horizontally */
+    align-items: center;     /* Center images vertically */
+}
+
+#containerSlider img {
+    width: 600px;
+    height: 186px;
+    display: block;          /* Ensures the image behaves like a block element */
+    margin: 20px auto;          /* Centers the image horizontally within the container */
+}
+
+@media(max-width: 732px) {
+    #containerSlider img {
+        height: 12em;
+    }
+}
+
+@media(max-width: 500px) {
+    #containerSlider img {
+        height: 10em;
+    }
+}
     </style>
 
 </head>

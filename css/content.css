@@ -15,6 +15,7 @@ h1
 }
 #containerClothing, #containerAccessories
 {
+    padding-top: 125px;
     display: grid;
     grid-gap: 70px 20px;
     grid-template-columns: repeat(4, 1fr);
@@ -68,6 +69,7 @@ p {
 }
 #containerClothing img
 {
+    padding-top: 25px;
     padding-left: 25px;
     border-radius: 10px;
     width: 275px;

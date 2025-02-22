@@ -64,7 +64,7 @@ function displayProducts(products) {
 }
 
 // Fetch products from the backend
-fetch("http://localhost:8080/api/products/type/Необработен")
+fetch("http://localhost:8080/api/products/type/Езотерични продукти")
   .then(response => {
     if (!response.ok) {
       throw new Error("Failed to fetch products");

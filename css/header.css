@@ -21,7 +21,7 @@ body
     width: 100%;
     display: grid;
     grid-gap: 10px;
-    grid-template-columns: 1.5fr 1.5fr 5fr 1fr;
+    grid-template-columns: 1.5fr 5fr 1fr;
     font-family: 'Lato', sans-serif;
     z-index: 1;
     justify-content: space-between;
@@ -31,6 +31,10 @@ body
     position: fixed;
     box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.302), 0 2px 6px 2px rgba(60, 64, 67, 0.149); 
 }
+/* #slidingImage{
+    height: 200px;
+    width: 600px; 
+} */
 #shopName 
 {
     font-size: 40px; 

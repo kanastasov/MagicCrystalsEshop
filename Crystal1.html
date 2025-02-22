@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="css/content.css">
 
 </head>
+<!-- HEADER -->
+<div id="header"></div>
+
 <body>
     <div id="mainContainer">
 
@@ -20,7 +23,6 @@
              
         </div>
 
-        <h1> Бижута, Сувенири и подаръци
         
         </h1>
         <div id="containerAccessories">
@@ -28,7 +30,21 @@
         </div>
     </div>
 </body>
-<!-- <span id="badge"></span> -->
 
+<div id="header"></div>
+<div id="footer"></div>
+
+<!-- Load Sections Dynamically -->
+<script>
+    function loadSection(id, url) {
+        let req = new XMLHttpRequest();
+        req.open("GET", url, false);
+        req.send(null);
+        document.getElementById(id).innerHTML = req.responseText;
+    }
+
+    loadSection("header", "header.html");
+    loadSection("footer", "footer.html");
+</script>
 <script src="crystal1.js"></script>
 </html>
