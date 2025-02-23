@@ -89,7 +89,7 @@ totalDiv.id = 'total';
 totalContainerDiv.appendChild(totalDiv);
 
 let totalh2 = document.createElement('h2');
-let h2Text = document.createTextNode('Total Amount');
+let h2Text = document.createTextNode('Обща цена без доставка');
 totalh2.appendChild(h2Text);
 totalDiv.appendChild(totalh2);
 

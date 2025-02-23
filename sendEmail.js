@@ -27,7 +27,7 @@ router.post("/api/send-order-email", async (req, res) => {
         from: process.env.EMAIL_USER,
         to: email,
         subject: "Потвърждение на поръчката",
-        text: `Благодаря ви за поръчката${userName}!\n\nДетайли на поръчката:\n${itemList}\n\Общо: ${totalAmount} Лева\n\nЩе ви се обадим на ${userPhone} когато пратката е готова`
+        text: `Благодаря ви за поръчката ${userName}!\n\nДетайли на поръчката:\n${itemList}\n\Общо: ${totalAmount} Лева\n\nЩе ви се обадим на ${userPhone} когато пратката е готова`
     };
 
     try {

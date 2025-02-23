@@ -4,7 +4,15 @@ const cors = require("cors");
 const multer = require("multer");
 const orderRoutes = require("./sendEmail");
 
+
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const bodyParser = require("body-parser");
+
+
 const app = express();
+app.use(bodyParser.json());
+
 app.use(cors()); // Enable CORS for frontend access
 app.use(express.json());
 app.use(orderRoutes);
@@ -230,12 +238,76 @@ app.listen(PORT, () => {
 });
 
 
-// const fs = require('fs');
-// const imageData = fs.readFileSync('/cr11.jpg');  // read the file as binary
-// const mimeType = 'image/jpeg'; // adjust if needed
 
-// const sql = "INSERT INTO images (image_data, mime_type) VALUES (?, ?)";
-// db.query(sql, [imageData, mimeType], (err, results) => {
-//   if (err) throw err;
-//   console.log("Image inserted with ID:", results.insertId);
-// });
+
+// Admin Login Route
+app.post("/api/admin/login", (req, res) => {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+        return res.status(400).json({ message: "Username and password required" });
+    }
+
+    db.query("SELECT * FROM admins WHERE username = ?", [username], (err, results) => {
+        if (err) return res.status(500).json({ message: "Database error", error: err });
+
+        if (results.length === 0) {
+            return res.status(401).json({ message: "Admin not found" });
+        }
+
+        const admin = results[0];
+
+        // Compare entered password with stored hashed password
+        if (!bcrypt.compareSync(password, admin.password)) {
+            return res.status(401).json({ message: "Invalid password" });
+        }
+
+        // Generate JWT token
+        const token = jwt.sign({ id: admin.id }, SECRET_KEY, { expiresIn: "1h" });
+
+        res.json({ token, message: "Login successful" });
+    });
+});
+
+// Middleware to verify JWT token
+const verifyToken = (req, res, next) => {
+    const token = req.headers["authorization"];
+    if (!token) return res.status(403).json({ message: "Token required" });
+
+    jwt.verify(token, SECRET_KEY, (err, decoded) => {
+        if (err) return res.status(403).json({ message: "Invalid token" });
+        req.adminId = decoded.id;
+        next();
+    });
+};
+
+// CRUD operations for products
+app.get("/products", verifyToken, (req, res) => {
+    db.query("SELECT * FROM products", (err, results) => {
+        if (err) return res.status(500).send(err);
+        res.json(results);
+    });
+});
+
+app.post("/products", verifyToken, (req, res) => {
+    const { name, price, description } = req.body;
+    db.query("INSERT INTO products (name, price, description) VALUES (?, ?, ?)", [name, price, description], (err) => {
+        if (err) return res.status(500).send(err);
+        res.json({ message: "Product added successfully" });
+    });
+});
+
+app.put("/products/:id", verifyToken, (req, res) => {
+    const { name, price, description } = req.body;
+    db.query("UPDATE products SET name=?, price=?, description=? WHERE id=?", [name, price, description, req.params.id], (err) => {
+        if (err) return res.status(500).send(err);
+        res.json({ message: "Product updated successfully" });
+    });
+});
+
+app.delete("/products/:id", verifyToken, (req, res) => {
+    db.query("DELETE FROM products WHERE id=?", [req.params.id], (err) => {
+        if (err) return res.status(500).send(err);
+        res.json({ message: "Product deleted successfully" });
+    });
+});

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+</head>
+
+<body>
+    <h2>Manage Products</h2>
+    <button onclick="logout()">Logout</button>
+    <div>
+        <input type="text" id="name" placeholder="Product Name">
+        <input type="number" id="price" placeholder="Price">
+        <textarea id="description" placeholder="Description"></textarea>
+        <button onclick="addProduct()">Add Product</button>
+    </div>
+    <ul id="productList"></ul>
+
+    <script>
+        const token = localStorage.getItem("token");
+        if (!token) {
+            window.location.href = "index.html";
+        }
+
+        function logout() {
+            localStorage.removeItem("token");
+            window.location.href = "index.html";
+        }
+
+        function fetchProducts() {
+            fetch("http://localhost:3000/products", {
+                headers: { "Authorization": token },
+            })
+                .then(res => res.json())
+                .then(products => {
+                    const productList = document.getElementById("productList");
+                    productList.innerHTML = "";
+                    products.forEach(p => {
+                        productList.innerHTML += `<li>${p.name} - $${p.price}
+                        <button onclick="deleteProduct(${p.id})">Delete</button>
+                    </li>`;
+                    });
+                });
+        }
+
+        function addProduct() {
+            const name = document.getElementById("name").value;
+            const price = document.getElementById("price").value;
+            const description = document.getElementById("description").value;
+
+            fetch("http://localhost:3000/products", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", "Authorization": token },
+                body: JSON.stringify({ name, price, description }),
+            }).then(() => fetchProducts());
+        }
+
+        function deleteProduct(id) {
+            fetch(`http://localhost:3000/products/${id}`, {
+                method: "DELETE",
+                headers: { "Authorization": token },
+            }).then(() => fetchProducts());
+        }
+
+        fetchProducts();
+    </script>
+</body>
+
+</html>

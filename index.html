@@ -28,9 +28,36 @@
     <!-- HEADER -->
     <div id="header"></div>
 
+
     <!-- SLIDER -->
     <div id="slider"></div>
+    <!-- <h2>Admin Login</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <script>
+       function login() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
 
+            fetch("http://localhost:8080/api/admin/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.token) {
+                        localStorage.setItem("token", data.token);
+                        alert("Login successful!");
+                        window.location.href = "dashboard.html";
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => console.error("Login error:", error));
+        }
+    </script> -->
     <!-- CONTENT SECTION -->
     <div id="preview"></div>
 
@@ -69,6 +96,9 @@
 
     <!-- Content JS -->
     <script src="preview.js"></script>
+
+
+
 
 </body>
 
