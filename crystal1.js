@@ -64,6 +64,7 @@ function displayProducts(products) {
 }
 
 // Fetch products from the backend
+// http://localhost:8080
 fetch("http://localhost:8080/api/products/type/Необработен")
   .then(response => {
     if (!response.ok) {
