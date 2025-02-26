@@ -138,6 +138,62 @@ app.get("/api/order/:id", (req, res) => {
     
 });
 
+
+
+
+app.post('/api/order', async (req, res) => {
+    console.log("Received Order:", req.body);  // Log the incoming order data
+
+    const { items, totalAmount, userName, email, userPhone } = req.body;
+
+    // Step 1: Insert the order into the orders table
+    const insertOrderQuery = `
+        INSERT INTO orders (user_name, email, user_phone, total_amount, order_date)
+        VALUES (?, ?, ?, ?, NOW())
+    `;
+
+    db.query(insertOrderQuery, [userName, email, userPhone, totalAmount], (err, result) => {
+        if (err) {
+            console.error('Error inserting order:', err);
+            return res.status(500).json({ message: 'Failed to place the order' });
+        }
+
+        const orderId = result.insertId;  // Get the generated order_id
+
+        // Step 2: Insert each item into the order_items table
+        const insertItemQuery = `
+            INSERT INTO order_items (order_id, product_name, product_price, quantity)
+            VALUES (?, ?, ?, ?)
+        `;
+        
+        let itemInsertErrors = false; // Flag for item insertion errors
+
+        items.forEach(item => {
+            const { name, price, quantity } = item;
+
+            db.query(insertItemQuery, [orderId, name, price, quantity], (err) => {
+                if (err) {
+                    console.error('Error inserting item:', err);
+                    itemInsertErrors = true;  // Mark that there was an error inserting an item
+                }
+            });
+        });
+
+        // Check if there was any error inserting items
+        if (itemInsertErrors) {
+            return res.status(500).json({ message: 'Failed to insert some order items' });
+        }
+
+        // Step 3: Send email or other actions
+        // Send a confirmation email (you can use a service like Nodemailer for email sending)
+
+        res.status(200).json({ message: 'Order placed successfully' });
+    });
+});
+
+
+
+
 // Multer for handling file uploads
 const storage = multer.memoryStorage(); // Store in memory
 const upload = multer({ storage: storage });

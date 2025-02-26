@@ -142,32 +142,32 @@ function dynamicContentDetails(ob)
 
 
 // BACKEND CALLING
-let httpRequest = new XMLHttpRequest()
-{
-    httpRequest.onreadystatechange = function()
-    {
-        if(this.readyState === 4 && this.status == 200)
-        {
-            console.log('connected!!');
-            let contentDetails = JSON.parse(this.responseText)
-            {
-              console.log(contentDetails);
-                productId = contentDetails.id
-                console.log(productId);
-                localStorage.setItem('productId', productId);
+// let httpRequest = new XMLHttpRequest()
+// {
+//     httpRequest.onreadystatechange = function()
+//     {
+//         if(this.readyState === 4 && this.status == 200)
+//         {
+//             console.log('connected!!');
+//             let contentDetails = JSON.parse(this.responseText)
+//             {
+//               console.log(contentDetails);
+//                 productId = contentDetails.id
+//                 console.log(productId);
+//                 localStorage.setItem('productId', productId);
 
-                dynamicContentDetails(contentDetails)
-            }
-        }
-        else
-        {
-            console.log('not connected!');
-        }
-    }
-}
+//                 dynamicContentDetails(contentDetails)
+//             }
+//         }
+//         else
+//         {
+//             console.log('not connected!');
+//         }
+//     }
+// }
 
-httpRequest.open('GET', 'http://localhost:8080/api/products/'+id, true)
+// httpRequest.open('GET', 'http://localhost:8080/api/products/'+id, true)
 
 
 
-httpRequest.send()  
+// httpRequest.send()  

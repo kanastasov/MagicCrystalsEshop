@@ -113,35 +113,46 @@ buttonDiv.appendChild(buttonTag);
 let buttonLink = document.createElement('a');
 buttonLink.href = '/orderPlaced.html';
 buttonTag.appendChild(buttonLink);
+    // console.log(cart);
 
-let buttonText = document.createTextNode('Place Order');
+let buttonText = document.createTextNode('Направете Поръчка');
 buttonTag.onclick = async function () {
-    console.log("Placing order...");
-
     if (cart.length === 0) {
         alert("Your cart is empty!");
         return;
     }
 
-    // Prepare order details
+
+        const simplifiedArray = cart.map(product => ({
+        name: product.name,
+        price: product.price,
+        quantity: product.quantity
+        }));
+
+
+    // Prepare order details object
     let orderDetails = {
-        items: cart,
+        items: simplifiedArray,
         totalAmount: totalAmount,
         userName: userName,
         email: userEmail,
         userPhone: userPhone
     };
 
+    console.log(orderDetails);
+    
+
     try {
-        let response = await fetch("http://localhost:8080/api/send-order-email", {
+        let response = await fetch("http://localhost:8080/api/order", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(orderDetails)
+            body: JSON.stringify(orderDetails) // Ensure the body is properly stringified
         });
 
         let result = await response.json();
+        console.log(result); // Log the response to see the server's feedback
         if (response.ok) {
             alert("Order placed successfully! A confirmation email has been sent.");
             localStorage.removeItem("cart"); // Clear cart
