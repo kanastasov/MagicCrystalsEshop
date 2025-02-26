@@ -144,7 +144,6 @@ const upload = multer({ storage: storage });
 
 
 
-/// POST Route to upload image
 app.post("/api/upload", upload.single("image"), (req, res) => {
     console.log('Upload img')
     console.log(req)

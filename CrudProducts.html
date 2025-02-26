@@ -30,27 +30,23 @@
         document.getElementById(1).innerHTML = req.responseText;
     }
 </script>
-<!-- <h2>Create Product</h2>
-<h2>Create Product</h2>
-
-<h2>Create Product</h2> -->
 
 
     <form id="productForm" enctype="multipart/form-data">
-        <h2>Create Product</h2>
-        <label for="name">Name:</label>
+        <h2>Създаване на продукт</h2>
+        <label for="name">Име: </label>
         <input type="text" id="name" name="name" required>
     
-        <label for="description">Description:</label>
+        <label for="description">Описание:</label>
         <textarea id="description" name="description" required></textarea>
     
-        <label for="price">Price:</label>
+        <label for="price">Цена:</label>
         <input type="number" id="price" name="price" step="0.01" required>
     
-        <label for="type">Type:</label>
+        <label for="type">Тип:</label>
         <input type="text" id="type" name="type" required>
     
-        <label for="image">Image:</label>
+        <label for="image">Снимка:</label>
         <input type="file" id="image" name="image">
     
         <button type="submit">Create Product</button>
@@ -61,23 +57,35 @@
 <script src="/crudProducts.js"></script>
 
  <script>
-        document.getElementById('productForm').addEventListener('submit', async function (event) {
-            event.preventDefault();
-            const formData = new FormData(this);
+    document.getElementById('productForm').addEventListener('submit', async function (event) {
+        event.preventDefault();
+        const formData = new FormData(this);
 
-            try {
-                const response = await fetch('/products', {
-                    method: 'POST',
-                    body: formData
-                });
+        try {
+            const response = await fetch('http://localhost:8080/api/upload', {
+                method: 'POST',
+                body: formData
+            });
 
-                const result = await response.json();
-                alert(result.message || 'Product created successfully!');
-            } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred while creating the product.');
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
             }
-        });
+
+            const text = await response.text();
+            try {
+                const result = JSON.parse(text);
+                alert(result.message || 'Product created successfully!');
+            } catch (jsonError) {
+                console.error('Response is not JSON:', text);
+                alert('Product created, but the response was not JSON.');
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+            alert(`An error occurred: ${error.message}`);
+        }
+    });
+
 </script>
 
 <!-- FOOTER -->
