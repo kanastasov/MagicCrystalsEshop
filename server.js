@@ -192,6 +192,117 @@ app.post('/api/order', async (req, res) => {
 });
 
 
+// Handle GET request to fetch orders
+app.get('/api/orders/:orderId', (req, res) => {
+    const orderId = req.params.orderId;
+
+    // Query to fetch the order details from the orders table
+    const getOrderQuery = `SELECT * FROM orders WHERE id = ?`;
+
+    db.query(getOrderQuery, [orderId], (err, orderResults) => {
+        if (err) {
+            console.error('Error fetching order:', err);
+            return res.status(500).json({ message: 'Failed to fetch order' });
+        }
+
+        if (orderResults.length === 0) {
+            return res.status(404).json({ message: 'Order not found' });
+        }
+
+        const order = orderResults[0]; // Since we expect only one order
+
+        // Query to fetch order items associated with the order
+        const getOrderItemsQuery = `SELECT * FROM order_items WHERE order_id = ?`;
+
+        db.query(getOrderItemsQuery, [orderId], (err, orderItems) => {
+            if (err) {
+                console.error('Error fetching order items:', err);
+                return res.status(500).json({ message: 'Failed to fetch order items' });
+            }
+
+            // Send back order and order items
+            res.status(200).json({
+                order: {
+                    id: order.id,
+                    user_name: order.user_name,
+                    email: order.email,
+                    user_phone: order.user_phone,
+                    total_amount: order.total_amount,
+                    order_date: order.order_date
+                },
+                items: orderItems.map(item => ({
+                    product_name: item.product_name,
+                    product_price: item.product_price,
+                    quantity: item.quantity
+                }))
+            });
+        });
+    });
+});
+
+
+
+// Handle GET request to fetch all orders
+app.get('/api/orders', (req, res) => {
+    // Query to fetch all orders from the orders table
+    const getAllOrdersQuery = `SELECT * FROM orders`;
+
+    db.query(getAllOrdersQuery, (err, orderResults) => {
+        if (err) {
+            console.error('Error fetching orders:', err);
+            return res.status(500).json({ message: 'Failed to fetch orders' });
+        }
+
+        if (orderResults.length === 0) {
+            return res.status(404).json({ message: 'No orders found' });
+        }
+
+        // Array to hold all orders with their items
+        const ordersWithItems = [];
+
+        // For each order, we need to get the associated order items
+        let completedOrdersCount = 0;
+
+        orderResults.forEach(order => {
+            const orderId = order.id;
+
+            // Query to fetch items associated with this order
+            const getOrderItemsQuery = `SELECT * FROM order_items WHERE order_id = ?`;
+
+            db.query(getOrderItemsQuery, [orderId], (err, orderItems) => {
+                if (err) {
+                    console.error('Error fetching order items:', err);
+                    return res.status(500).json({ message: 'Failed to fetch order items' });
+                }
+
+                // Add the order and its items to the array
+                ordersWithItems.push({
+                    order: {
+                        id: order.id,
+                        user_name: order.user_name,
+                        email: order.email,
+                        user_phone: order.user_phone,
+                        total_amount: order.total_amount,
+                        order_date: order.order_date
+                    },
+                    items: orderItems.map(item => ({
+                        product_name: item.product_name,
+                        product_price: item.product_price,
+                        quantity: item.quantity
+                    }))
+                });
+
+                // Once all orders are processed, send the response
+                completedOrdersCount++;
+                if (completedOrdersCount === orderResults.length) {
+                    res.status(200).json(ordersWithItems);
+                }
+            });
+        });
+    });
+});
+
+
 
 
 // Multer for handling file uploads
