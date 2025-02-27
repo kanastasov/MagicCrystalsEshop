@@ -1,5 +1,5 @@
 window.config = {
-LOCAL :"http://localhost:8080",
-PRODUCTION : "https://api.magiccrystals.bg/"
+URL :"http://localhost:8080",
+URL2 : "https://api.magiccrystals.bg/"
 };
 
