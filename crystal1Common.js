@@ -51,6 +51,7 @@ function dynamicClothingSection(ob) {
   return boxDiv;
 }
 
+
 // Function to display paginated products
 function displayProducts(page = 1) {
   let containerClothing = document.getElementById("containerClothing");

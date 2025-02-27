@@ -1,4 +1,7 @@
 let contentTitle;
+let currentPage = 1;
+const itemsPerPage = 20;
+let allProducts = [];
 
 console.log(document.cookie);
 
@@ -11,7 +14,6 @@ function dynamicClothingSection(ob) {
 
   let imgTag = document.createElement("img");
 
-  // Fetch the image as a Blob and set it correctly
   fetch(`http://localhost:8080/api/image/${ob.id}`)
     .then(response => {
       if (!response.ok) {
@@ -48,22 +50,45 @@ function dynamicClothingSection(ob) {
   return boxDiv;
 }
 
-// Function to display products
-function displayProducts(products) {
+function displayProducts(page = 1) {
   let containerClothing = document.getElementById("containerClothing");
   let containerAccessories = document.getElementById("containerAccessories");
 
-  products.forEach(product => {
+  containerClothing.innerHTML = "";
+  containerAccessories.innerHTML = "";
+
+  let startIndex = (page - 1) * itemsPerPage;
+  let endIndex = startIndex + itemsPerPage;
+  let paginatedItems = allProducts.slice(startIndex, endIndex);
+
+  paginatedItems.forEach(product => {
     let section = product.isAccessory ? containerAccessories : containerClothing;
     if (section) {
       section.appendChild(dynamicClothingSection(product));
-    } else {
-      console.error(`${product.isAccessory ? "containerAccessories" : "containerClothing"} not found!`);
     }
   });
+
+  updatePaginationControls();
 }
 
-// Fetch products from the backend
+function updatePaginationControls() {
+  let paginationContainer = document.getElementById("pagination");
+  paginationContainer.innerHTML = "";
+
+  let totalPages = Math.ceil(allProducts.length / itemsPerPage);
+
+  for (let i = 1; i <= totalPages; i++) {
+    let button = document.createElement("button");
+    button.textContent = i;
+    button.className = i === currentPage ? "active" : "";
+    button.onclick = function () {
+      currentPage = i;
+      displayProducts(currentPage);
+    };
+    paginationContainer.appendChild(button);
+  }
+}
+
 fetch("http://localhost:8080/api/products")
   .then(response => {
     if (!response.ok) {
@@ -72,11 +97,7 @@ fetch("http://localhost:8080/api/products")
     return response.json();
   })
   .then(products => {
-    contentTitle = products;
-    if (document.cookie.includes(",counter=")) {
-      let counter = document.cookie.split(",")[1].split("=")[1];
-      document.getElementById("badge").textContent = counter;
-    }
-    displayProducts(products);
+    allProducts = products;
+    displayProducts(currentPage);
   })
   .catch(error => console.error("Error fetching products:", error));
