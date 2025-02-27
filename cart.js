@@ -166,6 +166,7 @@ buttonTag.onclick = async function () {
     }
 };
 buttonTag.appendChild(buttonText);
+buttonTag.appendChild(buttonText);
 
 // Render cart items
 cart.forEach(item => {

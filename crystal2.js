@@ -1,3 +1,4 @@
+
 let contentTitle;
 
 console.log(document.cookie);
@@ -48,23 +49,56 @@ function dynamicClothingSection(ob) {
   return boxDiv;
 }
 
-// Function to display products
-function displayProducts(products) {
+let currentPage = 1;
+const itemsPerPage = 20;
+let allProducts = [];
+
+// Function to display paginated products
+function displayProducts(page = 1) {
   let containerClothing = document.getElementById("containerClothing");
   let containerAccessories = document.getElementById("containerAccessories");
 
-  products.forEach(product => {
+  // Clear previous content
+  containerClothing.innerHTML = "";
+  containerAccessories.innerHTML = "";
+
+  // Calculate start and end index
+  let startIndex = (page - 1) * itemsPerPage;
+  let endIndex = startIndex + itemsPerPage;
+  let paginatedItems = allProducts.slice(startIndex, endIndex);
+
+  paginatedItems.forEach(product => {
     let section = product.isAccessory ? containerAccessories : containerClothing;
     if (section) {
       section.appendChild(dynamicClothingSection(product));
-    } else {
-      console.error(`${product.isAccessory ? "containerAccessories" : "containerClothing"} not found!`);
     }
   });
+
+  updatePaginationControls();
+}
+
+// Function to create pagination controls
+function updatePaginationControls() {
+  let paginationContainer = document.getElementById("pagination");
+  paginationContainer.innerHTML = ""; // Clear previous buttons
+
+  let totalPages = Math.ceil(allProducts.length / itemsPerPage);
+
+  for (let i = 1; i <= totalPages; i++) {
+    let button = document.createElement("button");
+    button.textContent = i;
+    button.className = i === currentPage ? "active" : "";
+    button.onclick = function () {
+      currentPage = i;
+      displayProducts(currentPage);
+    };
+    paginationContainer.appendChild(button);
+  }
 }
 
 // Fetch products from the backend
-fetch("http://localhost:8080/api/products/type/Друзи")
+// PRODUCTION
+fetch(`${config.LOCAL}/api/products/type/Друзи`)
   .then(response => {
     if (!response.ok) {
       throw new Error("Failed to fetch products");
@@ -72,13 +106,7 @@ fetch("http://localhost:8080/api/products/type/Друзи")
     return response.json();
   })
   .then(products => {
-    contentTitle = products;
-    if (document.cookie.includes(",counter=")) {
-      let counter = document.cookie.split(",")[1].split("=")[1];
-      // document.getElementById("badge").textContent = counter;
-    }
-    displayProducts(products);
+    allProducts = products;
+    displayProducts(currentPage);
   })
   .catch(error => console.error("Error fetching products:", error));
-
-
