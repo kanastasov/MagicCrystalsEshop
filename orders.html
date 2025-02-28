@@ -17,8 +17,14 @@
 
     <!-- jQuery (Corrected) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="config.js"></script>
 
     <link rel="stylesheet" href="css/product.css">
+<script>
+    if (!localStorage.getItem('adminLoggedIn')) {
+        window.location.href = 'admin.html';
+    }
+</script>
 
 </head>
 
@@ -44,7 +50,24 @@
 
         loadSection("header", "header.html");
         loadSection("contentOrder", "contentOrder.html");
+        <button onclick="logout()">Logout</button>
+
+
+
+        
         loadSection("footer", "footer.html");
+    </script>
+
+    <script>
+        function logout() {
+            fetch(`${window.config.URL}`, {
+                method: 'POST',
+                credentials: 'include'
+            }).then(() => {
+                localStorage.removeItem('adminLoggedIn');
+                window.location.href = 'admin.html';
+            });
+        }
     </script>
 
     <!-- Slick Slider JS -->

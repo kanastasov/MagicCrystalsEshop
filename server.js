@@ -4,6 +4,7 @@ const cors = require("cors");
 const multer = require("multer");
 const orderRoutes = require("./sendEmail");
 
+// const session = require('express-session');
 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -13,10 +14,16 @@ const bodyParser = require("body-parser");
 const app = express();
 app.use(bodyParser.json());
 
-app.use(cors()); // Enable CORS for frontend access
+// app.use(cors()); // Enable CORS for frontend access
 app.use(express.json());
 app.use(orderRoutes);
-
+app.use(cors({
+    origin: 'http://127.0.0.1:8080', // Allow requests from this origin
+    methods: 'GET,POST,PUT,DELETE',  // Allowed methods
+    credentials: true,
+    allowedHeaders: 'Content-Type,Authorization' // Allowed headers
+              // Allow cookies/session
+}));
 // MySQL Database Connection
 const db = mysql.createConnection({
     host: "localhost",
@@ -397,42 +404,38 @@ app.get("/api/image/preview/:id", (req, res) => {
 });
 
 
-// Start the Server
-const PORT = 8080;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+
+// Login API
+app.post('/api/login', (req, res) => {
+    const { username, password } = req.body;
+    const query = 'SELECT * FROM admins WHERE username = ? AND password = ?';
+    
+    db.query(query, [username, password], (err, results) => {
+        if (err) return res.status(500).json({ error: 'Database error' });
+
+        if (results.length > 0) {
+            req.session.user = results[0];
+            res.json({ success: true, message: 'Login successful' });
+        } else {
+            res.status(401).json({ error: 'Invalid credentials' });
+        }
+    });
 });
 
 
-
-
-// Admin Login Route
-app.post("/api/admin/login", (req, res) => {
-    const { username, password } = req.body;
-
-    if (!username || !password) {
-        return res.status(400).json({ message: "Username and password required" });
+// Check session
+app.get('/check-auth', (req, res) => {
+    if (req.session.user) {
+        res.json({ loggedIn: true });
+    } else {
+        res.status(401).json({ loggedIn: false });
     }
+});
 
-    db.query("SELECT * FROM admins WHERE username = ?", [username], (err, results) => {
-        if (err) return res.status(500).json({ message: "Database error", error: err });
-
-        if (results.length === 0) {
-            return res.status(401).json({ message: "Admin not found" });
-        }
-
-        const admin = results[0];
-
-        // Compare entered password with stored hashed password
-        if (!bcrypt.compareSync(password, admin.password)) {
-            return res.status(401).json({ message: "Invalid password" });
-        }
-
-        // Generate JWT token
-        const token = jwt.sign({ id: admin.id }, SECRET_KEY, { expiresIn: "1h" });
-
-        res.json({ token, message: "Login successful" });
-    });
+// Logout API
+app.post('/logout', (req, res) => {
+    req.session.destroy();
+    res.json({ message: 'Logged out successfully' });
 });
 
 // Middleware to verify JWT token
@@ -477,3 +480,11 @@ app.delete("/products/:id", verifyToken, (req, res) => {
         res.json({ message: "Product deleted successfully" });
     });
 });
+// Start the Server
+const PORT = 8080;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
+
+
+

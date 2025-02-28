@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="css/header.css">
+</head>
+
+<body>
+
+    <header>
+        <div id="container">
+            <div id="shopName"><a href="index.html"> <b>Magic</b>Crystals </a></div>
+        </div>
+    </header>
+
+    <div id="login-container">
+        <h2>Admin Login</h2>
+         
+
+
+    <form id="login-form">
+        <input type="text" id="username" placeholder="Username" required autocomplete="username">
+        <input type="password" id="password" placeholder="Password" required autocomplete="current-password">
+        <button type="submit">Login</button>
+    </form>
+
+
+        <p id="error-message" style="color: red;"></p>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async function (event) {
+            event.preventDefault(); // Prevent form from reloading the page
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const response = await fetch('http://localhost:8080/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                localStorage.setItem('adminLoggedIn', 'true');
+                window.location.href = 'crudproducts.html';
+            } else {
+                document.getElementById('error-message').innerText = data.error;
+            }
+        });
+    </script>
+
+</body>
+
+</html>

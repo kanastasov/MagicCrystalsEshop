@@ -14,6 +14,11 @@
     <!-- header links -->
     <script src="https://kit.fontawesome.com/4a3b1f73a2.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+<script>
+    if (!localStorage.getItem('adminLoggedIn')) {
+        window.location.href = 'admin.html';
+    }
+</script>
 
 </head>
 

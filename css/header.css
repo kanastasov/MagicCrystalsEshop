@@ -32,6 +32,9 @@ body
     gap: 95px;
     /* Adds spacing between elements */
 }
+#login-container {
+    padding-top: 100px;
+}
 /* #slidingImage{
     height: 200px;
     width: 600px; 
