@@ -8,6 +8,7 @@
     <title>Admin Login</title>
     <link rel="stylesheet" href="css/header.css">
         <script src="config.js"></script>
+<link rel="stylesheet" href="css/admin.css">
 
 </head>
 
@@ -74,7 +75,7 @@
 
                 if (response.ok) {
                     localStorage.setItem('adminLoggedIn', 'true');
-                    window.location.href = 'crudproducts.html';
+                    window.location.href = 'Orders.html';
                 } else {
                     errorMessage.innerText = data.error || 'Login failed';
                 }
