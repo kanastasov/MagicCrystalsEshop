@@ -14,16 +14,16 @@ const bodyParser = require("body-parser");
 const app = express();
 app.use(bodyParser.json());
 
-// app.use(cors()); // Enable CORS for frontend access
+app.use(cors()); // Enable CORS for frontend access
 app.use(express.json());
 app.use(orderRoutes);
-app.use(cors({
-    origin: 'http://127.0.0.1:8080', // Allow requests from this origin
-    methods: 'GET,POST,PUT,DELETE',  // Allowed methods
-    credentials: true,
-    allowedHeaders: 'Content-Type,Authorization' // Allowed headers
-              // Allow cookies/session
-}));
+// app.use(cors({
+//     origin: 'http://127.0.0.1:8080', // Allow requests from this origin
+//     methods: 'GET,POST,PUT,DELETE',  // Allowed methods
+//     credentials: true,
+//     allowedHeaders: 'Content-Type,Authorization' // Allowed headers
+//               // Allow cookies/session
+// }));
 // MySQL Database Connection
 const db = mysql.createConnection({
     host: "localhost",
@@ -406,22 +406,88 @@ app.get("/api/image/preview/:id", (req, res) => {
 
 
 // Login API
-app.post('/api/login', (req, res) => {
-    const { username, password } = req.body;
-    const query = 'SELECT * FROM admins WHERE username = ? AND password = ?';
-    
-    db.query(query, [username, password], (err, results) => {
-        if (err) return res.status(500).json({ error: 'Database error' });
+// app.post('/api/login', (req, res) => {
+//     const { username, password } = req.body;
+//     const query = 'SELECT * FROM admins WHERE username = ? AND password = ?';
+//     console.log(req.body)
+//     console.log(query)
+//     db.query(query, [username, password], (err, results) => {
+//         if (err) return res.status(500).json({ error: 'Database error' });
 
-        if (results.length > 0) {
-            req.session.user = results[0];
-            res.json({ success: true, message: 'Login successful' });
-        } else {
-            res.status(401).json({ error: 'Invalid credentials' });
+//         if (results.length > 0) {
+//             req.session.user = results[0];
+//             res.json({ success: true, message: 'Login successful' });
+//         } else {
+//             res.status(401).json({ error: 'Invalid credentials' });
+//         }
+//     });
+// });  
+
+
+// const express = require('express');
+// const cors = require('cors');
+// const app = express();
+
+// app.use(cors()); // Enable CORS
+// app.use(express.json()); // Parse JSON request body
+
+// app.post('/api/login', (req, res) => {
+//     const { username, password } = req.body;
+
+//     if (!username || !password) {
+//         return res.status(400).json({ error: 'Username and password are required' });
+//     }
+
+//     // Example login validation (replace with database check)
+//     if (username === 'admin' && password === 'password') {
+//         return res.json({ message: 'Login successful' });
+//     } else {
+//         return res.status(401).json({ error: 'Invalid credentials' });
+//     }
+// });
+
+// app.listen(8081, () => {
+//     console.log('Server running on http://127.0.0.1:8081');
+// });
+
+
+app.post('/api/login', async (req, res) => {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+        return res.status(400).json({ error: "Username and password are required" });
+    }
+
+    // Query database for user
+    const sql = "SELECT * FROM admins WHERE username = ?";
+    db.query(sql, [username], (err, results) => {
+        if (err) return res.status(500).json({ error: "Server error " + err });
+
+        if (results.length === 0) {
+            return res.status(401).json({ error: "Invalid username or password" });
         }
+
+        const user = results[0];
+
+        // Check if password matches (assuming passwords are stored as plain text for simplicity)
+        if (user.password !== password) {
+            return res.status(401).json({ error: "Invalid username or password" });
+        }
+
+        res.json({ message: "Login successful" });
     });
 });
 
+// app.post('/api/login', (req, res) => {
+//     const { username, password } = req.body;
+    
+//     // Example response (replace with actual authentication logic)
+//     if (username === 'admin' && password === 'password') {
+//         return res.json({ message: 'Login successful' });
+//     } else {
+//         return res.status(401).json({ error: 'Invalid credentials' });
+//     }
+// });
 
 // Check session
 app.get('/check-auth', (req, res) => {

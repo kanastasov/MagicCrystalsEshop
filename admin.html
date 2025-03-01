@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Admin Login</title>
     <link rel="stylesheet" href="css/header.css">
+        <script src="config.js"></script>
+
 </head>
 
 <body>
@@ -32,28 +34,58 @@
         <p id="error-message" style="color: red;"></p>
     </div>
 
-    <script>
-        document.getElementById('login-form').addEventListener('submit', async function (event) {
-            event.preventDefault(); // Prevent form from reloading the page
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const loginForm = document.getElementById('login-form');
+        if (!loginForm) {
+            console.error('Login form not found.');
+            return;
+        }
 
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+        loginForm.addEventListener('submit', async function (event) {
+            event.preventDefault(); // Prevent form reload
 
-            const response = await fetch('http://localhost:8080/api/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
-            });
+            const username = document.getElementById('username')?.value.trim();
+            const password = document.getElementById('password')?.value.trim();
+            const errorMessage = document.getElementById('error-message');
 
-            const data = await response.json();
-            if (response.ok) {
-                localStorage.setItem('adminLoggedIn', 'true');
-                window.location.href = 'crudproducts.html';
-            } else {
-                document.getElementById('error-message').innerText = data.error;
+            if (!username || !password) {
+                errorMessage.innerText = 'Username and password are required';
+                return;
+            }
+
+            console.log("Attempting login with:", username);
+
+            // Ensure window.config and URL exist
+            if (!window.config || !window.config.URL) {
+                console.error("Config URL is missing.");
+                errorMessage.innerText = "Configuration error. Please try again later.";
+                return;
+            }
+
+            try {
+                const response = await fetch(`${window.config.URL}/api/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('adminLoggedIn', 'true');
+                    window.location.href = 'crudproducts.html';
+                } else {
+                    errorMessage.innerText = data.error || 'Login failed';
+                }
+            } catch (error) {
+                console.error("Login error:", error);
+                errorMessage.innerText = 'Network error. Please try again.';
             }
         });
-    </script>
+    });
+</script>
+
 
 </body>
 
