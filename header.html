@@ -11,35 +11,51 @@
     <link rel="stylesheet" href="css/header.css">
     <script src="https://kit.fontawesome.com/4a3b1f73a2.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+
+
+
 </head>
 <body>
     
-    <header>
-        <section>
-            <!-- MAIN CONTAINER -->
-            <div id="container">
-                <!-- SHOP NAME -->
-                <div id="shopName"><a href="index.html"> <b>Magic</b>Crystals </a></div>
-                    <!-- COLLCETIONS ON WEBSITE -->
-                    <div id="collection">
-                         <div id="shopName"><a href="product.html"> Продукти </a></div>
-                         <div id="shopName"><a href="contact.html"> Контакти </a></div> 
-                         <div id="shopName"><a href="blog.html"> Блог </a></div>
-                         <div id="shopName"><a href="admin.html"> admin </a></div>
-                         <div id="shopName"><a href="CrudProducts.html"> Добави продукт </a></div>
-                         <div id="shopName"><a href="Orders.html"> Поръчки </a></div>
- 
 
-                    </div>
-         
-                    <div id="user">
-                        <a href="cart.html"> <i class="fas fa-shopping-cart addedToCart"><div id="badge">  0 </div></i></a>
-                        <!-- <a href="#"> <i class="fas fa-user-circle userIcon"></i> </a> -->
-                    </div>
+
+
+<header>
+    <section>
+        <!-- MAIN CONTAINER -->
+        <div id="container">
+            <!-- SHOP NAME -->
+            <div id="shopName"><a href="index.html"> <b>Magic</b>Crystals </a></div>
+
+            <!-- COLLECTIONS ON WEBSITE -->
+            <div id="collection">
+                <div id="shopName"><a href="product.html"> Продукти </a></div>
+                <div id="shopName"><a href="contact.html"> Контакти </a></div>
+                <div id="shopName"><a href="blog.html"> Блог </a></div>
+                <div id="shopName"><a href="admin.html"> Админ </a></div>
+
+                <!-- Use class instead of ID for multiple elements -->
+                <div class="admin-link"><a href="CrudProducts.html"> Добави продукт </a></div>
+
+                <!-- <div class="admin-link" style="display:none;"><a href="CrudProducts.html"> Добави продукт </a></div> -->
+                <div class="orders-link" style="display:none;"><a href="Orders.html"> Поръчки </a></div>
+
+                <!-- Logout link (hidden until logged in) -->
+                <div class="logout-link" style="display:none;">
+                    <a href="javascript:void(0);" onclick="logout()">Logout</a>
+                </div>
             </div>
 
-        </section>
-    </header>
+            <!-- USER ICON -->
+            <div id="user">
+                <a href="cart.html"> <i class="fas fa-shopping-cart addedToCart">
+                        <div id="badge"> 0 </div>
+                    </i></a>
+            </div>
+        </div>
+    </section>
+</header>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -53,6 +69,32 @@
                 });
         });
     </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const adminLink = document.querySelector('.admin-link');  // Use class for Add Product link
+        const ordersLink = document.querySelector('.orders-link');  // Use class for Orders link
+        const logoutLink = document.querySelector('.logout-link');  // Use class for Logout link
+
+        // Log to check if the localStorage is correct
+        console.log('adminLoggedIn:', localStorage.getItem('adminLoggedIn'));
+
+        // Check if admin is logged in
+        if (localStorage.getItem('adminLoggedIn') === 'true') {
+            console.log("Admin is logged in. Showing links.");
+
+            adminLink.style.display = 'inline';  // Show Add Product link
+            ordersLink.style.display = 'inline';  // Show Orders link
+            logoutLink.style.display = 'inline';  // Show Logout link
+        }
+    });
+
+    function logout() {
+        // Remove adminLoggedIn flag from localStorage
+        localStorage.removeItem('adminLoggedIn');
+        window.location.href = 'admin.html';  // Redirect to login page
+    }
+</script>
 
 </body>
 </html>
