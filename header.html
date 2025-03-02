@@ -35,13 +35,13 @@
                 <div id="shopName"><a href="admin.html"> Админ </a></div>
 
                 <!-- Use class instead of ID for multiple elements -->
-                <div class="admin-link"><a href="CrudProducts.html"> Добави продукт </a></div>
+                <!-- <div class="admin-link"><a href="CrudProducts.html"> Добави продукт </a></div> -->
 
-                <!-- <div class="admin-link" style="display:none;"><a href="CrudProducts.html"> Добави продукт </a></div> -->
-                <div class="orders-link" style="display:none;"><a href="Orders.html"> Поръчки </a></div>
+                <div class="admin-link" style="display: none;"><a href="CrudProducts.html"> Добави продукт </a></div>
+                <div class="orders-link" style="display: none;"><a href="Orders.html"> Поръчки </a></div>
 
                 <!-- Logout link (hidden until logged in) -->
-                <div class="logout-link" style="display:none;">
+                <div class="logout-link" style="display: none;">
                     <a href="javascript:void(0);" onclick="logout()">Logout</a>
                 </div>
             </div>
@@ -75,6 +75,10 @@
         const adminLink = document.querySelector('.admin-link');  // Use class for Add Product link
         const ordersLink = document.querySelector('.orders-link');  // Use class for Orders link
         const logoutLink = document.querySelector('.logout-link');  // Use class for Logout link
+        console.log(adminLink, ordersLink, logoutLink);
+        adminLink.classList.add('visible');
+        ordersLink.classList.add('visible');
+        logoutLink.classList.add('visible');
 
         // Log to check if the localStorage is correct
         console.log('adminLoggedIn:', localStorage.getItem('adminLoggedIn'));
@@ -82,10 +86,10 @@
         // Check if admin is logged in
         if (localStorage.getItem('adminLoggedIn') === 'true') {
             console.log("Admin is logged in. Showing links.");
+             adminLink.style.display = 'display: inline-block !important';
+            ordersLink.style.display = 'inline-block';
+            logoutLink.style.display = 'inline-block';
 
-            adminLink.style.display = 'inline';  // Show Add Product link
-            ordersLink.style.display = 'inline';  // Show Orders link
-            logoutLink.style.display = 'inline';  // Show Logout link
         }
     });
 

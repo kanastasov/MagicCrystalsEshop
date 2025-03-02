@@ -316,3 +316,6 @@ body
     }
 }
 
+.visible {
+    display: inline-block !important;
+}
