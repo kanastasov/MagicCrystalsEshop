@@ -14,6 +14,8 @@
     <!-- header links -->
     <script src="https://kit.fontawesome.com/4a3b1f73a2.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+    <script src="config.js"></script>
+
 <script>
     if (!localStorage.getItem('adminLoggedIn')) {
         window.location.href = 'admin.html';
@@ -97,7 +99,7 @@
         const formData = new FormData(this);
 
         try {
-            const response = await fetch('http://localhost:8080/api/upload', {
+            const response = await fetch(`${window.config.URL}/api/upload`, {
                 method: 'POST',
                 body: formData
             });

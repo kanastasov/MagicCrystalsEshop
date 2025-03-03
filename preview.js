@@ -14,7 +14,7 @@ function dynamicClothingSection(ob) {
   let imgTag = document.createElement("img");
 
   // Fetch the image as a Blob and set it correctly
-  fetch(`http://localhost:8080/api/image/preview/${ob.id}`)
+  fetch(`${window.config.URL}/api/image/preview/${ob.id}`)
     .then(response => {
       if (!response.ok) {
         throw new Error("Failed to load image");
@@ -66,7 +66,7 @@ function displayProducts(products) {
 }
 
 // Fetch products from the backend
-fetch("http://localhost:8080/api/preview")
+fetch(`${window.config.URL}/api/preview`)
   .then(response => {
     if (!response.ok) {
       throw new Error("Failed to fetch products");

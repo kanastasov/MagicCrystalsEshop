@@ -42,7 +42,7 @@ function dynamicCartSection(item) {
     let imgTag = document.createElement("img");
 
     // Fetch the image as a Blob and set it correctly
-    fetch(`http://localhost:8080/api/image/${item.id}`)
+    fetch(`${window.config.URL}/api/image/${item.id}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error("Failed to load image");
@@ -143,7 +143,7 @@ buttonTag.onclick = async function () {
     
 
     try {
-        let response = await fetch("http://localhost:8080/api/order", {
+        let response = await fetch(`${window.config.URL}/api/order`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

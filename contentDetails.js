@@ -22,7 +22,7 @@ function dynamicContentDetails(ob)
   let imgTag = document.createElement("img");
 
   // Fetch the image as a Blob and set it correctly
-  fetch(`http://localhost:8080/api/image/${ob.id}`)
+  fetch(`${window.config.URL}/api/image/${ob.id}`)
     .then(response => {
       if (!response.ok) {
         throw new Error("Failed to load image");
@@ -166,7 +166,7 @@ let httpRequest = new XMLHttpRequest()
     }
 }
 
-httpRequest.open('GET', 'http://localhost:8080/api/products/'+id, true)
+httpRequest.open('GET', `${window.config.URL}/api/products/`+id, true)
 
 
 

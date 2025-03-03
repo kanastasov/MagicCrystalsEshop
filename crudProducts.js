@@ -22,7 +22,7 @@ function dynamicContentDetails(ob)
   let imgTag = document.createElement("img");
 
   // Fetch the image as a Blob and set it correctly
-  fetch(`http://localhost:8080/api/image/${ob.id}`)
+  fetch(`${window.config.URL}/api/image/${ob.id}`)
     .then(response => {
       if (!response.ok) {
         throw new Error("Failed to load image");
@@ -141,33 +141,3 @@ function dynamicContentDetails(ob)
 
 
 
-// BACKEND CALLING
-// let httpRequest = new XMLHttpRequest()
-// {
-//     httpRequest.onreadystatechange = function()
-//     {
-//         if(this.readyState === 4 && this.status == 200)
-//         {
-//             console.log('connected!!');
-//             let contentDetails = JSON.parse(this.responseText)
-//             {
-//               console.log(contentDetails);
-//                 productId = contentDetails.id
-//                 console.log(productId);
-//                 localStorage.setItem('productId', productId);
-
-//                 dynamicContentDetails(contentDetails)
-//             }
-//         }
-//         else
-//         {
-//             console.log('not connected!');
-//         }
-//     }
-// }
-
-// httpRequest.open('GET', 'http://localhost:8080/api/products/'+id, true)
-
-
-
-// httpRequest.send()  

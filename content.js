@@ -14,7 +14,7 @@ function dynamicClothingSection(ob) {
 
   let imgTag = document.createElement("img");
 
-  fetch(`http://localhost:8080/api/image/${ob.id}`)
+  fetch(`${window.config.URL}/api/image/${ob.id}`)
     .then(response => {
       if (!response.ok) {
         throw new Error("Failed to load image");
@@ -89,7 +89,7 @@ function updatePaginationControls() {
   }
 }
 
-fetch("http://localhost:8080/api/products")
+fetch(`${window.config.URL}/api/products`)
   .then(response => {
     if (!response.ok) {
       throw new Error("Failed to fetch products");

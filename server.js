@@ -464,14 +464,14 @@ app.post('/api/login', async (req, res) => {
         if (err) return res.status(500).json({ error: "Server error " + err });
 
         if (results.length === 0) {
-            return res.status(401).json({ error: "Invalid username or password" });
+            return res.status(401).json({ error: "Грешно име или парола" });
         }
 
         const user = results[0];
 
         // Check if password matches (assuming passwords are stored as plain text for simplicity)
         if (user.password !== password) {
-            return res.status(401).json({ error: "Invalid username or password" });
+            return res.status(401).json({ error: "Грешно име или парола" });
         }
 
         res.json({ message: "Login successful" });
