@@ -38,7 +38,7 @@ CREATE TABLE products (
 	type VARCHAR(255) NOT NULL,
     image_data LONGBLOB NOT NULL,
     mime_type VARCHAR(50) NOT NULL
-);
+); q
 
 
 CREATE TABLE preview (
@@ -49,6 +49,11 @@ CREATE TABLE preview (
     image_data LONGBLOB NOT NULL,
     mime_type VARCHAR(50) NOT NULL
 );
+
+ALTER DATABASE magiccrystals CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+select * from orders
+select * from order_items
 
 
 CREATE TABLE orders (
@@ -69,35 +74,52 @@ CREATE TABLE order_items (
     FOREIGN KEY (order_id) REFERENCES orders(id)
 );
 
-
-CREATE TABLE admins (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL,
-    password VARCHAR(255) NOT NULL
-);
+CREATE TABLE `admins` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO admins (id, username, password) VALUES
-(1, 'admin', 'admin'
+(1, 'admin', 'MagicCrystals57?'
  )
+UPDATE  magiccrystals.preview 
+set name = 'Шипове и Обелиски',
+type = 'Шипове и Обелиски'
+where id = 5;
 
+select * from magiccrystals.products where id = 1
 
+select * from magiccrystals.preview where id = 5
+
+UPDATE magiccrystals.products
+SET price = 38
+WHERE id = 123;
 
 delete  from magiccrystals.preview where id = 9;
-SELECT * FROM products
+SELECT * FROM products where id = 39;
 
 SET SQL_SAFE_UPDATES = 0;
-DELETE FROM products WHERE type = 'Друзи';
+DELETE FROM products WHERE type = 'минерал';
 
-DELETE FROM products WHERE id = 92
+DELETE FROM orders WHERE id > 0 
+DELETE FROM order_items WHERE id > 0 
+
+
+DELETE FROM products WHERE id = 139
 SELECT * FROM products WHERE id = 73;
 
-UPDATE   
+UPDATE products 
 SET price = 18 
 WHERE id = 73;
 
+INSERT INTO admins (username, password) 
+VALUES ('admin', 'admin');
 
 
-
+select * from preview
 use magiccrystals;
-select * from products
+select * from products where type = 'Сувенири от Полускъпоценни Камъни'
 
+SELECT * FROM admins WHERE username = 'admin' AND password = 'admin'
