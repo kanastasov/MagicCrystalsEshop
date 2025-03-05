@@ -41,17 +41,39 @@ db.connect((err) => {
 });
 
 // API Endpoint to Fetch All Products
+// API Endpoint to Fetch Paginated Products
 app.get("/api/products", (req, res) => {
     const page = parseInt(req.query.page) || 1; // Default to page 1
-    const limit = parseInt(req.query.limit) || 12; // Default limit is 10 products per page
-    const offset = (page - 1) * limit;
+    const limit = parseInt(req.query.limit) || 12; // Default limit is 12 products per page
+    const offset = (page - 1) * limit; // Calculate offset
+    console.log(limit)
+    console.log(offset)
 
+    // Use proper SQL syntax for pagination with LIMIT and OFFSET
     const sqlQuery = "SELECT * FROM products LIMIT ? OFFSET ?";
     db.query(sqlQuery, [limit, offset], (err, results) => {
         if (err) {
             return res.status(500).json({ error: "Database query failed" });
         }
-        res.json({ page, limit, products: results });
+
+        // Query to get the total number of products (for pagination)
+        const countQuery = "SELECT COUNT(*) AS total FROM products";
+        db.query(countQuery, (err, countResults) => {
+            if (err) {
+                return res.status(500).json({ error: "Failed to get total product count" });
+            }
+
+            const totalItems = countResults[0].total; // Total number of products in the database
+            const totalPages = Math.ceil(totalItems / limit); // Total number of pages
+
+            res.json({
+                page,
+                limit,
+                totalItems,
+                totalPages,
+                products: results,
+            });
+        });
     });
 });
 
