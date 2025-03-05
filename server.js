@@ -42,18 +42,22 @@ db.connect((err) => {
 
 // API Endpoint to Fetch All Products
 app.get("/api/products", (req, res) => {
-    const sqlQuery = "SELECT * FROM products";
-    db.query(sqlQuery, (err, results) => {
+    const page = parseInt(req.query.page) || 1; // Default to page 1
+    const limit = parseInt(req.query.limit) || 12; // Default limit is 10 products per page
+    const offset = (page - 1) * limit;
+
+    const sqlQuery = "SELECT * FROM products LIMIT ? OFFSET ?";
+    db.query(sqlQuery, [limit, offset], (err, results) => {
         if (err) {
             return res.status(500).json({ error: "Database query failed" });
         }
-        res.json(results);
+        res.json({ page, limit, products: results });
     });
 });
 
 
 
-// API Endpoint to Fetch All Products
+// API Endpoint to Fetch All preview
 app.get("/api/preview", (req, res) => {
     const sqlQuery = "SELECT * FROM preview";
     db.query(sqlQuery, (err, results) => {
@@ -345,6 +349,53 @@ app.post("/api/upload", upload.single("image"), (req, res) => {
     });
 });
 
+// const path = require("path");
+// const fs = require("fs");
+// const uploadDir = "uploads"; // Folder to store images
+// const baseUrl = "ftp.magiccrystals.bg/pubblic_html/img/"; // Change this to match your server's URL
+
+// // Ensure the upload directory exists
+// if (!fs.existsSync(uploadDir)) {
+//     fs.mkdirSync(uploadDir, { recursive: true });
+// }
+
+// app.post("/api/upload", upload.single("image"), (req, res) => {
+//     console.log("Upload img");
+
+//     if (!req.file) {
+//         return res.status(400).json({ error: "No file uploaded" });
+//     }
+
+//     const name = req.body.name;
+//     const description = req.body.description;
+//     const price = req.body.price;
+//     const type = req.body.type;
+
+//     // Save image to the uploads directory
+//     const imageName = Date.now() + path.extname(req.file.originalname);
+//     console.log(imageName)
+//     console.log(req.file.originalname)
+//     const imagePath = path.join(uploadDir, imageName);
+//     fs.writeFileSync(imagePath, req.file.buffer);
+
+//     const image_data = baseUrl + imageName; // URL reference to store in the database
+//     const mime_type = 'image/jpeg';
+//     // Insert product with image URL inst
+//     // ead of binary data
+//     db.query(
+//         "INSERT INTO products (name, description, price, type, image_data,mime_type) VALUES (?, ?, ?, ?, ?)",
+//         [name, description, price, type, image_data,mime_type],
+//         (err, result) => {
+//             if (err) {
+//                 console.error("Error inserting product:", err);
+//                 return res.status(500).json({ error: "Database error" });
+//             }
+//             res.json({ message: "Product uploaded successfully", id: result.insertId, image_data });
+//         }
+//     );
+// });
+
+
 /// POST Route to upload preview
 app.post("/api/upload/preview", upload.single("image"), (req, res) => {
     console.log('Upload img')
@@ -404,53 +455,6 @@ app.get("/api/image/preview/:id", (req, res) => {
 });
 
 
-
-// Login API
-// app.post('/api/login', (req, res) => {
-//     const { username, password } = req.body;
-//     const query = 'SELECT * FROM admins WHERE username = ? AND password = ?';
-//     console.log(req.body)
-//     console.log(query)
-//     db.query(query, [username, password], (err, results) => {
-//         if (err) return res.status(500).json({ error: 'Database error' });
-
-//         if (results.length > 0) {
-//             req.session.user = results[0];
-//             res.json({ success: true, message: 'Login successful' });
-//         } else {
-//             res.status(401).json({ error: 'Invalid credentials' });
-//         }
-//     });
-// });  
-
-
-// const express = require('express');
-// const cors = require('cors');
-// const app = express();
-
-// app.use(cors()); // Enable CORS
-// app.use(express.json()); // Parse JSON request body
-
-// app.post('/api/login', (req, res) => {
-//     const { username, password } = req.body;
-
-//     if (!username || !password) {
-//         return res.status(400).json({ error: 'Username and password are required' });
-//     }
-
-//     // Example login validation (replace with database check)
-//     if (username === 'admin' && password === 'password') {
-//         return res.json({ message: 'Login successful' });
-//     } else {
-//         return res.status(401).json({ error: 'Invalid credentials' });
-//     }
-// });
-
-// app.listen(8081, () => {
-//     console.log('Server running on http://127.0.0.1:8081');
-// });
-
-
 app.post('/api/login', async (req, res) => {
     const { username, password } = req.body;
 
@@ -478,16 +482,6 @@ app.post('/api/login', async (req, res) => {
     });
 });
 
-// app.post('/api/login', (req, res) => {
-//     const { username, password } = req.body;
-    
-//     // Example response (replace with actual authentication logic)
-//     if (username === 'admin' && password === 'password') {
-//         return res.json({ message: 'Login successful' });
-//     } else {
-//         return res.status(401).json({ error: 'Invalid credentials' });
-//     }
-// });
 
 // Check session
 app.get('/check-auth', (req, res) => {
