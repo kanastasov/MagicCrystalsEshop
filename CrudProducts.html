@@ -147,7 +147,7 @@
         const logoutLink = document.getElementById('logout-link');
 
         // Check if admin is logged in
-        if (localStorage.getItem('adminLoggedIn') === 'true') {
+        if (adminLink && logoutLink  && localStorage.getItem('adminLoggedIn') === 'true') {
             adminLink.style.display = 'inline'; // Show Orders link
             logoutLink.style.display = 'inline'; // Show Logout link
         }

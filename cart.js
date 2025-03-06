@@ -1,5 +1,3 @@
-console.clear();
-
 // Retrieve cart from localStorage
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let totalAmount = 0;
@@ -122,13 +120,11 @@ buttonTag.onclick = async function () {
         return;
     }
 
-
-        const simplifiedArray = cart.map(product => ({
+    const simplifiedArray = cart.map(product => ({
         name: product.name,
         price: product.price,
         quantity: product.quantity
-        }));
-
+    }));
 
     // Prepare order details object
     let orderDetails = {
@@ -140,31 +136,53 @@ buttonTag.onclick = async function () {
     };
 
     console.log(orderDetails);
-    
 
     try {
+        // First, send the order
         let response = await fetch(`${window.config.URL}/api/order`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(orderDetails) // Ensure the body is properly stringified
+            body: JSON.stringify(orderDetails)
         });
 
         let result = await response.json();
-        console.log(result); // Log the response to see the server's feedback
+        console.log(result);
+
         if (response.ok) {
-            alert("Order placed successfully! A confirmation email has been sent.");
+            // If order is successful, send the confirmation email
+            let emailResponse = await fetch(`${window.config.URL}/api/send-order-email`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(orderDetails) // Use the same order details
+            });
+
+            let emailResult = await emailResponse.json();
+            console.log(emailResult);
+
+            if (emailResponse.ok) {
+                alert("Поръчката е направена успешно! Изпратен е имейл за потвърждение.");
+            } else {
+                alert("Поръчката е успешна, но имейлът не беше изпратен.");
+            }
+
             localStorage.removeItem("cart"); // Clear cart
             location.reload();
         } else {
-            alert("Failed to place order: " + result.message);
+            alert("Неуспешна поръчка: " + result.message);
         }
     } catch (error) {
-        console.error("Error sending order:", error);
-        alert("Something went wrong. Please try again.");
+        console.error("Error processing order:", error);
+        alert("Нещо се обърка. Моля, опитайте отново.");
     }
 };
+
+
+
+
 buttonTag.appendChild(buttonText);
 buttonTag.appendChild(buttonText);
 
