@@ -12,21 +12,25 @@ function dynamicClothingSection(ob) {
     let boxLink = document.createElement("a");
     boxLink.href = "/contentDetails.html?" + ob.id;
 
-    let imgTag = document.createElement("img");
+  // Create the image element
+  let imgTag = document.createElement("img");
 
-    fetch(`${window.config.URL}/api/image/${ob.id}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Failed to load image");
-            }
-            return response.blob();
-        })
-        .then(blob => {
-            const imageUrl = URL.createObjectURL(blob);
-            imgTag.src = imageUrl;
-            imgTag.alt = ob.name;
-        })
-        .catch(error => console.error("Error loading image:", error));
+  // Fetch the image URL from your API
+  fetch(`${window.config.URL}/api/image/${ob.id}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Failed to load image");
+      }
+      return response.json(); // Assuming your API sends a JSON response with the image URL
+    })
+    .then(data => {
+      const imageUrl = data.image_url;  // Assuming the API returns an object like { image_url: "url" }
+      imgTag.src = imageUrl;  // Set the source to the image URL
+      imgTag.alt = ob.name;   // Set the alt text to the crystal's name
+      // Append image to the boxDiv (inside the link)
+      boxLink.appendChild(imgTag);  // Corrected location
+    })
+    .catch(error => console.error("Error loading image:", error));
 
     let detailsDiv = document.createElement("div");
     detailsDiv.id = "details";

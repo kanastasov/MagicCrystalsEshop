@@ -30,15 +30,6 @@ SELECT LOAD_FILE('D:/cr1.jpg');
 
 SELECT user, host FROM mysql.user;
 
-CREATE TABLE products (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-	name VARCHAR(255) NOT NULL,
-	description TEXT,
-    price DECIMAL(10, 2) NOT NULL,
-	type VARCHAR(255) NOT NULL,
-    image_data LONGBLOB NOT NULL,
-    mime_type VARCHAR(50) NOT NULL
-); q
 
 
 CREATE TABLE preview (
@@ -80,6 +71,48 @@ CREATE TABLE `admins` (
   `password` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(255) NOT NULL,
+	description TEXT,
+    price DECIMAL(10, 2) NOT NULL,
+	type VARCHAR(255) NOT NULL,
+    image_data LONGBLOB NOT NULL,
+    mime_type VARCHAR(50) NOT NULL
+); 
+
+
+CREATE TABLE `crystals` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `description` TEXT,
+  `price` DECIMAL(10,2) NOT NULL,
+  `type` VARCHAR(255) NOT NULL,
+  `image_url` VARCHAR(500) NOT NULL,  -- Stores GitHub image link instead of binary data
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/1.jpg
+
+CREATE TABLE `crystalsPreview` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `type` VARCHAR(255) NOT NULL,
+  `image_url` VARCHAR(500) NOT NULL,  -- Stores GitHub image link instead of binary data
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO `crystalsPreview` (`name`, `type`, `image_url`) 
+VALUES 
+  ('Необработени Скъпоценни и Полускъпоценни Камъни',  'Необработен', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/1Preview.png'),
+
+  ('Друзи и Геоди',  'Необработен', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/2Preview.png');
+
 
 INSERT INTO admins (id, username, password) VALUES
 (1, 'admin', 'MagicCrystals57?'

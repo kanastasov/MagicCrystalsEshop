@@ -50,14 +50,14 @@ app.get("/api/products", (req, res) => {
     console.log(offset)
 
     // Use proper SQL syntax for pagination with LIMIT and OFFSET
-    const sqlQuery = "SELECT * FROM products LIMIT ? OFFSET ?";
+    const sqlQuery = "SELECT * FROM crystals LIMIT ? OFFSET ?";
     db.query(sqlQuery, [limit, offset], (err, results) => {
         if (err) {
             return res.status(500).json({ error: "Database query failed" });
         }
 
-        // Query to get the total number of products (for pagination)
-        const countQuery = "SELECT COUNT(*) AS total FROM products";
+        // Query to get the total number of crystals (for pagination)
+        const countQuery = "SELECT COUNT(*) AS total FROM crystals";
         db.query(countQuery, (err, countResults) => {
             if (err) {
                 return res.status(500).json({ error: "Failed to get total product count" });
@@ -81,7 +81,7 @@ app.get("/api/products", (req, res) => {
 
 // API Endpoint to Fetch All preview
 app.get("/api/preview", (req, res) => {
-    const sqlQuery = "SELECT * FROM preview";
+    const sqlQuery = "SELECT * FROM crystalsPreview";
     db.query(sqlQuery, (err, results) => {
         if (err) {
             return res.status(500).json({ error: "Database query failed" });
@@ -95,14 +95,14 @@ app.get("/api/preview", (req, res) => {
 app.get("/api/products/type/:type", (req, res) => {
     const type = req.params.type; // Extract type dynamically from URL
 
-    const sqlQuery = "SELECT * FROM products WHERE LOWER(type) = LOWER(?)";
+    const sqlQuery = "SELECT * FROM crystals WHERE LOWER(type) = LOWER(?)";
     db.query(sqlQuery, [type], (err, results) => {
         if (err) {
             return res.status(500).json({ error: "Database query failed" });
         }
 
         if (results.length === 0) {
-            return res.status(404).json({ error: "No products found for this type" });
+            return res.status(404).json({ error: "No crystals found for this type" });
         }
 
         res.json(results); // Return all matching products
@@ -114,7 +114,7 @@ app.get("/api/products/type/:type", (req, res) => {
 app.get("/api/products/:id", (req, res) => {
     const productId = req.params.id; // Get the ID from the URL
 
-    const sqlQuery = "SELECT * FROM products WHERE id = ?";
+    const sqlQuery = "SELECT * FROM crystals WHERE id = ?";
     db.query(sqlQuery, [productId], (err, results) => {
         if (err) {
             return res.status(500).json({ error: "Database query failed" });
@@ -135,7 +135,7 @@ app.get("/api/products/:id", (req, res) => {
 app.get("/api/preview/:id", (req, res) => {
     const previewId = req.params.id; // Get the ID from the URL
 
-    const sqlQuery = "SELECT * FROM preview WHERE id = ?";
+    const sqlQuery = "SELECT * FROM crystalsPreview WHERE id = ?";
     db.query(sqlQuery, [previewId], (err, results) => {
         if (err) {
             return res.status(500).json({ error: "Database query failed" });
@@ -152,24 +152,24 @@ app.get("/api/preview/:id", (req, res) => {
 });
  
 
-app.get("/api/order/:id", (req, res) => {
-    const orderId = req.params.id; // Get the ID from the URL
+// app.get("/api/order/:id", (req, res) => {
+//     const orderId = req.params.id; // Get the ID from the URL
 
-    const sqlQuery = "SELECT * FROM orders WHERE id = ?";
-    db.query(sqlQuery, [orderId], (err, results) => {
-        if (err) {
-            return res.status(500).json({ error: "Database query failed" });
-        }
+//     const sqlQuery = "SELECT * FROM orders WHERE id = ?";
+//     db.query(sqlQuery, [orderId], (err, results) => {
+//         if (err) {
+//             return res.status(500).json({ error: "Database query failed" });
+//         }
 
-        if (results.length === 0) {
-            return res.status(404).json({ error: "Product not found" });
-        }
+//         if (results.length === 0) {
+//             return res.status(404).json({ error: "Product not found" });
+//         }
 
-        res.json(results[0]); 
-    });
+//         res.json(results[0]); 
+//     });
 
     
-});
+// });
 
 
 
@@ -358,11 +358,11 @@ app.post("/api/upload", upload.single("image"), (req, res) => {
     const type = req.body.type;
 
     const image = req.file.buffer;  // Image binary data
-    const mimeType = req.file.mimetype; 
+    // const mimeType = req.file.mimetype; 
     
 
     // Insert image data and MIME type into the database
-    db.query("INSERT INTO products (name,description,price,type, image_data, mime_type) VALUES (?, ?, ?,?,?,?)", [name,description,price,type,image, mimeType], (err, result) => {
+    db.query("INSERT INTO crystals (name,description,price,type, image_url) VALUES (?, ?, ?,?,?,?)", [name,description,price,type,image], (err, result) => {
         if (err) {
             console.error("Error inserting image:", err);
             return res.status(500).json({ error: "Database error" });
@@ -371,51 +371,6 @@ app.post("/api/upload", upload.single("image"), (req, res) => {
     });
 });
 
-// const path = require("path");
-// const fs = require("fs");
-// const uploadDir = "uploads"; // Folder to store images
-// const baseUrl = "ftp.magiccrystals.bg/pubblic_html/img/"; // Change this to match your server's URL
-
-// // Ensure the upload directory exists
-// if (!fs.existsSync(uploadDir)) {
-//     fs.mkdirSync(uploadDir, { recursive: true });
-// }
-
-// app.post("/api/upload", upload.single("image"), (req, res) => {
-//     console.log("Upload img");
-
-//     if (!req.file) {
-//         return res.status(400).json({ error: "No file uploaded" });
-//     }
-
-//     const name = req.body.name;
-//     const description = req.body.description;
-//     const price = req.body.price;
-//     const type = req.body.type;
-
-//     // Save image to the uploads directory
-//     const imageName = Date.now() + path.extname(req.file.originalname);
-//     console.log(imageName)
-//     console.log(req.file.originalname)
-//     const imagePath = path.join(uploadDir, imageName);
-//     fs.writeFileSync(imagePath, req.file.buffer);
-
-//     const image_data = baseUrl + imageName; // URL reference to store in the database
-//     const mime_type = 'image/jpeg';
-//     // Insert product with image URL inst
-//     // ead of binary data
-//     db.query(
-//         "INSERT INTO products (name, description, price, type, image_data,mime_type) VALUES (?, ?, ?, ?, ?)",
-//         [name, description, price, type, image_data,mime_type],
-//         (err, result) => {
-//             if (err) {
-//                 console.error("Error inserting product:", err);
-//                 return res.status(500).json({ error: "Database error" });
-//             }
-//             res.json({ message: "Product uploaded successfully", id: result.insertId, image_data });
-//         }
-//     );
-// });
 
 
 /// POST Route to upload preview
@@ -447,34 +402,36 @@ app.post("/api/upload/preview", upload.single("image"), (req, res) => {
     });
 });
 
-// API to retrieve an image
+
+// API to retrieve an image URL
 app.get("/api/image/:id", (req, res) => {
     const id = req.params.id;
 
-    db.query("SELECT image_data FROM products WHERE id = ?", [id], (err, result) => {
+    db.query("SELECT image_url FROM crystals WHERE id = ?", [id], (err, result) => {
         if (err || result.length === 0) {
             return res.status(404).json({ error: "Image not found" });
         }
         
-        res.setHeader("Content-Type", "image/jpeg"); // Set correct content type
-        res.send(result[0].image_data);
+        // Send the image URL as a JSON response
+        res.json({
+            image_url: result[0].image_url  // Returning the image_url field
+        });
     });
 });
 
 
-// API to retrieve an image
+
+// Server-side (Node.js) example
 app.get("/api/image/preview/:id", (req, res) => {
-    const id = req.params.id;
-
-    db.query("SELECT image_data FROM preview WHERE id = ?", [id], (err, result) => {
-        if (err || result.length === 0) {
-            return res.status(404).json({ error: "Image not found" });
-        }
-        
-        res.setHeader("Content-Type", "image/jpeg"); // Set correct content type
-        res.send(result[0].image_data);
-    });
+  const id = req.params.id;
+  db.query("SELECT image_url FROM crystalsPreview WHERE id = ?", [id], (err, result) => {
+    if (err || result.length === 0) {
+      return res.status(404).json({ error: "Image not found" });
+    }
+    res.json({ image_url: result[0].image_url });  // Send the image URL
+  });
 });
+
 
 
 app.post('/api/login', async (req, res) => {
@@ -532,36 +489,7 @@ const verifyToken = (req, res, next) => {
     });
 };
 
-// CRUD operations for products
-app.get("/products", verifyToken, (req, res) => {
-    db.query("SELECT * FROM products", (err, results) => {
-        if (err) return res.status(500).send(err);
-        res.json(results);
-    });
-});
 
-app.post("/products", verifyToken, (req, res) => {
-    const { name, price, description } = req.body;
-    db.query("INSERT INTO products (name, price, description) VALUES (?, ?, ?)", [name, price, description], (err) => {
-        if (err) return res.status(500).send(err);
-        res.json({ message: "Product added successfully" });
-    });
-});
-
-app.put("/products/:id", verifyToken, (req, res) => {
-    const { name, price, description } = req.body;
-    db.query("UPDATE products SET name=?, price=?, description=? WHERE id=?", [name, price, description, req.params.id], (err) => {
-        if (err) return res.status(500).send(err);
-        res.json({ message: "Product updated successfully" });
-    });
-});
-
-app.delete("/products/:id", verifyToken, (req, res) => {
-    db.query("DELETE FROM products WHERE id=?", [req.params.id], (err) => {
-        if (err) return res.status(500).send(err);
-        res.json({ message: "Product deleted successfully" });
-    });
-});
 // Start the Server
 const PORT = 8080;
 app.listen(PORT, () => {

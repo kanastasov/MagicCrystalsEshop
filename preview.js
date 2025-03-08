@@ -13,20 +13,40 @@ function dynamicClothingSection(ob) {
 
   let imgTag = document.createElement("img");
 
-  // Fetch the image as a Blob and set it correctly
-  fetch(`${window.config.URL}/api/image/preview/${ob.id}`)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error("Failed to load image");
-      }
-      return response.blob();
-    })
-    .then(blob => {
-      const imageUrl = URL.createObjectURL(blob);
-      imgTag.src = imageUrl;
-      imgTag.alt = ob.name;
-    })
-    .catch(error => console.error("Error loading image:", error));
+fetch(`${window.config.URL}/api/image/preview/${ob.id}`)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`Failed to load image: ${response.statusText}`);
+    }
+    return response.text();  // Read the response as text first
+  })
+  .then(data => {
+    // Check if the response is empty
+    if (data.trim() === "") {
+      throw new Error("Empty response received from the server.");
+    }
+
+    // Parse JSON only if the response is valid
+    let jsonData;
+    try {
+      jsonData = JSON.parse(data);
+    } catch (error) {
+      throw new Error("Failed to parse JSON response");
+    }
+
+    const imageUrl = jsonData.image_url;  // Assuming the API returns an object like { image_url: "url" }
+    imgTag.src = imageUrl;  // Set the source to the image URL
+    imgTag.alt = ob.name;   // Set the alt text to the crystal's name
+
+    // Append image to the boxDiv (inside the link)
+    boxLink.appendChild(imgTag);  // Corrected location
+  })
+  .catch(error => {
+    console.error("Error loading image:", error);
+    // Optionally show a fallback image or message
+    imgTag.src = 'path/to/fallback-image.jpg';  // Example fallback
+  });
+
 
   let detailsDiv = document.createElement("div");
   detailsDiv.id = "details";
@@ -71,6 +91,7 @@ fetch(`${window.config.URL}/api/preview`)
     if (!response.ok) {
       throw new Error("Failed to fetch products");
     }
+    console.log(response)
     return response.json();
   })
   .then(products => {
