@@ -21,18 +21,20 @@ function dynamicContentDetails(ob)
 
   let imgTag = document.createElement("img");
 
-  // Fetch the image as a Blob and set it correctly
+  // Fetch the image URL from your API
   fetch(`${window.config.URL}/api/image/${ob.id}`)
     .then(response => {
       if (!response.ok) {
         throw new Error("Failed to load image");
       }
-      return response.blob();
+      return response.json(); // Assuming your API sends a JSON response with the image URL
     })
-    .then(blob => {
-      const imageUrl = URL.createObjectURL(blob);
-      imgTag.src = imageUrl;
-      imgTag.alt = ob.name;
+    .then(data => {
+      const imageUrl = data.image_url;  // Assuming the API returns an object like { image_url: "url" }
+      imgTag.src = imageUrl;  // Set the source to the image URL
+      imgTag.alt = ob.name;   // Set the alt text to the crystal's name
+      // Append image to the boxDiv (inside the link)
+      boxLink.appendChild(imgTag);  // Corrected location
     })
     .catch(error => console.error("Error loading image:", error));
 
