@@ -13,39 +13,25 @@ function dynamicClothingSection(ob) {
 
   let imgTag = document.createElement("img");
 
-fetch(`${window.config.URL}/api/image/preview/${ob.id}`)
-  .then(response => {
-    if (!response.ok) {
-      throw new Error(`Failed to load image: ${response.statusText}`);
-    }
-    return response.text();  // Read the response as text first
-  })
-  .then(data => {
-    // Check if the response is empty
-    if (data.trim() === "") {
-      throw new Error("Empty response received from the server.");
-    }
 
-    // Parse JSON only if the response is valid
-    let jsonData;
-    try {
-      jsonData = JSON.parse(data);
-    } catch (error) {
-      throw new Error("Failed to parse JSON response");
-    }
+  // Fetch the image URL from your API
+  fetch(`${window.config.URL}/api/image/preview/${ob.id}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Failed to load image");
+      }
+      return response.json(); // Assuming your API sends a JSON response with the image URL
+    })
+    .then(data => {
+      const imageUrl = data.image_url;  // Assuming the API returns an object like { image_url: "url" }
+      imgTag.src = imageUrl;  // Set the source to the image URL
+      imgTag.alt = ob.name;   // Set the alt text to the crystal's name
+      // Append image to the boxDiv (inside the link)
+      boxLink.appendChild(imgTag);  // Corrected location
+    })
+    .catch(error => console.error("Error loading image:", window.config.URL , error));
 
-    const imageUrl = jsonData.image_url;  // Assuming the API returns an object like { image_url: "url" }
-    imgTag.src = imageUrl;  // Set the source to the image URL
-    imgTag.alt = ob.name;   // Set the alt text to the crystal's name
-
-    // Append image to the boxDiv (inside the link)
-    boxLink.appendChild(imgTag);  // Corrected location
-  })
-  .catch(error => {
-    console.error("Error loading image:", error);
-    // Optionally show a fallback image or message
-    imgTag.src = 'path/to/fallback-image.jpg';  // Example fallback
-  });
+  
 
 
   let detailsDiv = document.createElement("div");

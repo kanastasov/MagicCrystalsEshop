@@ -36,7 +36,7 @@ function dynamicContentDetails(ob)
       // Append image to the boxDiv (inside the link)
       boxLink.appendChild(imgTag);  // Corrected location
     })
-    .catch(error => console.error("Error loading image:", error));
+    .catch(error => console.error("Error loading image:", window.config.URL , error));
 
 
     imageSectionDiv.appendChild(imgTag)
