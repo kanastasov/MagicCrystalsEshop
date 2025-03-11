@@ -2,7 +2,7 @@ let productType = "Необработен"; // Define the variable
 
 
 // Fetch products from the backend
-fetch(`${window.config.URL}/api/products/type/${encodeURIComponent(productType)}`)
+fetch(`${window.config.URL || 'https://magiccrystals.bg'}/api/products/type/${encodeURIComponent(productType)}`)
   .then(response => {
     if (!response.ok) {
       throw new Error("Failed to fetch products");

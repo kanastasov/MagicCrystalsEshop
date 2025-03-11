@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Fetch orders from the backend
-  fetch(`${window.config.URL}/api/orders`)
+  fetch(`${window.config.URL || 'https://magiccrystals.bg'}/api/orders`)
     .then(response => {
       if (!response.ok) {
         throw new Error("Failed to fetch orders");

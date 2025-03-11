@@ -16,7 +16,7 @@ function dynamicClothingSection(ob) {
   let imgTag = document.createElement("img");
 
   // Fetch the image URL from your API
-  fetch(`${window.config.URL}/api/image/${ob.id}`)
+  fetch(`${window.config.URL || 'https://magiccrystals.bg'}/api/image/${ob.id}`)
     .then(response => {
       if (!response.ok) {
         throw new Error("Failed to load image");
