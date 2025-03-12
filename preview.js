@@ -72,7 +72,7 @@ function displayProducts(products) {
 }
 
 // Fetch products from the backend
-fetch(`${window.config.URL || 'https://magiccrystals.bg'}/api/preview`)
+fetch(`${window.config.URL || 'https://api.magiccrystals.bg'}/api/preview`)
   .then(response => {
     if (!response.ok) {
       throw new Error("Failed to fetch products");

@@ -16,7 +16,7 @@ function dynamicClothingSection(ob) {
   let imgTag = document.createElement("img");
 
   // Fetch the image URL from your API
-  fetch(`${window.config.URL || 'https://magiccrystals.bg'}/api/image/${ob.id}`)
+  fetch(`${window.config.URL || 'https://api.magiccrystals.bg'}/api/image/${ob.id}`)
     .then(response => {
       if (!response.ok) {
         throw new Error("Failed to load image");
@@ -140,7 +140,8 @@ function updatePaginationUI(totalPages) {
 
 
 function fetchProducts(page = 1) {
-fetch(`${window.config.URL}/api/products?page=${page}&limit=${itemsPerPage}`)
+    let tempUrl = window.config && window.config.URL ? window.config.URL : "https://api.magiccrystals.bg";
+fetch(`${tempUrl}/api/products?page=${page}&limit=${itemsPerPage}`)
     .then(response => {
         if (!response.ok) {
             throw new Error("Failed to fetch products");
@@ -159,7 +160,7 @@ fetch(`${window.config.URL}/api/products?page=${page}&limit=${itemsPerPage}`)
     })
     .catch(error => console.error("Error fetching products:", error));
 
-
+ 
 }
 
 
