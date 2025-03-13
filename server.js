@@ -27,7 +27,6 @@ app.use(orderRoutes);
 // MySQL Database Connection
 
 
-
 // const db = mysql.createConnection({
 //     host: "localhost",
 //     user: "root",  // Change if your MySQL username is different
@@ -85,10 +84,10 @@ app.get("/api/products", (req, res) => {
 
 // API Endpoint to Fetch All preview
 app.get("/api/preview", (req, res) => {
-    const sqlQuery = "SELECT * FROM crystalsPreview";
+    const sqlQuery = "SELECT * FROM crystalspreview";
     db.query(sqlQuery, (err, results) => {
         if (err) {
-            return res.status(500).json({ error: "Database query failed" });
+            return res.status(500).json({ error: "Database query failed" + err });
         }
         res.json(results);
     });
@@ -139,7 +138,7 @@ app.get("/api/products/:id", (req, res) => {
 app.get("/api/preview/:id", (req, res) => {
     const previewId = req.params.id; // Get the ID from the URL
 
-    const sqlQuery = "SELECT * FROM crystalsPreview WHERE id = ?";
+    const sqlQuery = "SELECT * FROM crystalspreview WHERE id = ?";
     db.query(sqlQuery, [previewId], (err, results) => {
         if (err) {
             return res.status(500).json({ error: "Database query failed" });
@@ -428,7 +427,7 @@ app.get("/api/image/:id", (req, res) => {
 // Server-side (Node.js) example
 app.get("/api/image/preview/:id", (req, res) => {
   const id = req.params.id;
-  db.query("SELECT image_url FROM crystalsPreview WHERE id = ?", [id], (err, result) => {
+  db.query("SELECT image_url FROM crystalspreview WHERE id = ?", [id], (err, result) => {
     if (err || result.length === 0) {
       return res.status(404).json({ error: "Image not found" });
     }

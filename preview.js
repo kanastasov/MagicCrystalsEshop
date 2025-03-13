@@ -1,4 +1,5 @@
 let contentTitle;
+let tempUrl = window.config && window.config.URL ? window.config.URL : "https://api.magiccrystals.bg";
 
 console.log(document.cookie);
 
@@ -15,7 +16,7 @@ function dynamicClothingSection(ob) {
 
 
   // Fetch the image URL from your API
-  fetch(`${window.config.URL}/api/image/preview/${ob.id}`)
+  fetch(`${tempUrl}/api/image/preview/${ob.id}`)
     .then(response => {
       if (!response.ok) {
         throw new Error("Failed to load image");
@@ -71,21 +72,18 @@ function displayProducts(products) {
   });
 }
 
-// Fetch products from the backend
-fetch(`${window.config.URL || 'https://api.magiccrystals.bg'}/api/preview`)
+// Fetch products preview from the backend
+fetch(`${tempUrl}/api/preview`)
   .then(response => {
     if (!response.ok) {
-      throw new Error("Failed to fetch products");
+      return response.json().then(errData => {
+        throw new Error(`Server Error ${response.status}: ${errData.error}`);
+      });
     }
-    console.log(response)
     return response.json();
   })
   .then(products => {
-    contentTitle = products;
-    if (document.cookie.includes(",counter=")) {
-      let counter = document.cookie.split(",")[1].split("=")[1];
-      document.getElementById("badge").textContent = counter;
-    }
     displayProducts(products);
   })
-  .catch(error => console.error("Error fetching products:", error));
+  .catch(error => console.error("Error fetching products:", error.message));
+
