@@ -17,7 +17,7 @@ h1
 {
     padding-top: 125px;
     display: grid;
-    grid-gap: 70px 20px;
+    grid-gap: 70px 50px;
     grid-template-columns: repeat(4, 1fr);
     width: 50%;
     margin: auto;
@@ -57,8 +57,8 @@ p {
 }
 #box 
 {
-    width: 95%;
-        /* width: 85%; */
+    /* width: 95%; */
+    width: 110%;
     background-color: white;
     align-content: center;
     border-radius: 10px;
@@ -121,6 +121,10 @@ h2
         width: 95%;
         grid-gap: 10px;
     }
+          #box {
+              width: 110%;
+              grid-gap: 20px 20px
+          }
 }
 @media(max-width: 850px)
 {
@@ -134,7 +138,12 @@ h2
         grid-gap: 70px 20px;
         grid-template-columns: repeat(3, 1fr);
         width: 80%;
-    }    
+    } 
+    #box{
+        width: 110%;
+        grid-gap: 20px 20px
+         }
+
 }
 @media(max-width: 650px)
 {
@@ -150,6 +159,10 @@ h2
     {
         width: 90%;
     }
+          #box {
+              width: 110%;
+              grid-gap: 20px 20px
+          }
 }
 @media(max-width: 600px)
 {
@@ -161,6 +174,10 @@ h2
     {
         width: 70%;
     }
+         #box {
+              width: 110%;
+              grid-gap: 20px 20px
+          }
 }
 @media(max-width: 505px)
 {
@@ -173,6 +190,10 @@ h2
         width: 80%;
         grid-template-columns: repeat(2, 1fr);
     }
+          #box {
+              width: 110%;
+              grid-gap: 20px 20px
+          }
 }
 
 
