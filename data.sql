@@ -158,7 +158,7 @@ select * from products where type = 'Сувенири от Полускъпоц�
 SELECT * FROM admins WHERE username = 'admin' AND password = 'admin'
 
 
-INSERT INTO `crystalsPreview` (`name`, `type`, `image_url`) 
+INSERT INTO `crystalspreview` (`name`, `type`, `image_url`) 
 VALUES 
   ('Полирани Камъни',  'Полирани Камъни', 
    'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/3Preview.png');
@@ -213,3 +213,7 @@ VALUES
       
      ('Дръвчета', 'Тези амулети са създадени според принципите на Фън Шуй и се използват, за да внесат късмет, просперитет и баланс в живота на тези, които ги използват.', 32, 'Полирани Камъни', 
    'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/3%20Полирани%20Камъни/13.jpg');
+
+
+
+   
