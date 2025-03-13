@@ -1,8 +1,9 @@
 let productType = "Лампи, Свещници и Подложки за Чаши"; // Define the variable
 
+let currentUrl = window.config && window.config.URL ? window.config.URL : "https://api.magiccrystals.bg";
 
 // Fetch products from the backend
-fetch(`${window.config.URL}/api/products/type/${encodeURIComponent(productType)}`)
+fetch(`${currentUrl}/api/products/type/${encodeURIComponent(productType)}`)
   .then(response => {
     if (!response.ok) {
       throw new Error("Failed to fetch products");

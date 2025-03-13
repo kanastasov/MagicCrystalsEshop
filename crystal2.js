@@ -1,5 +1,9 @@
 // Fetch products from the backend
-fetch(`${window.config.URL || 'https://api.magiccrystals.bg'}/api/products/type/Друзи`)
+let productType = "Друзи"; // Define the variable
+
+let currentUrl = window.config && window.config.URL ? window.config.URL : "https://api.magiccrystals.bg";
+
+fetch(`${currentUrl}/api/products/type/${productType}`)
   .then(response => {
     if (!response.ok) {
       throw new Error("Failed to fetch products");
