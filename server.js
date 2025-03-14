@@ -500,8 +500,8 @@ const verifyToken = (req, res, next) => {
 
 
 // Start the Server
-const PORT2 = 8080;
-const PORT = 3000;
+const PORT = 8080;
+const PORT2 = 3000;
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
