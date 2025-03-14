@@ -1,10 +1,9 @@
-body
-{
+body {
     margin: 0;
     font-family: 'Lato', sans-serif;
 }
-h1
-{
+
+h1 {
     /* width: 90%; */
     margin: auto;
     padding: 25px;
@@ -13,8 +12,9 @@ h1
     font-weight: 700;
     text-transform: capitalize;
 }
-#containerClothing, #containerAccessories
-{
+
+#containerClothing,
+#containerAccessories {
     padding-top: 125px;
     display: grid;
     grid-gap: 70px 50px;
@@ -23,6 +23,7 @@ h1
     margin: auto;
     padding-bottom: 40px;
 }
+
 p {
     font-size: 18px;
     /* Increases readability */
@@ -55,21 +56,20 @@ p {
     margin: auto;
     /* padding-bottom: 40px; */
 }
-#box 
-{
-    /* width: 95%; */
-    width: 110%;
+
+#box {
+    width: 95%;
     background-color: white;
     align-content: center;
     border-radius: 10px;
     box-shadow: 1px 2px 6px 2px rgb(219, 219, 219);
 }
-#box:hover
-{
+
+#box:hover {
     box-shadow: 1px 6px 3px 0 rgb(185, 185, 185);
 }
-#containerClothing img
-{
+
+#containerClothing img {
     padding-top: 15px;
     padding-bottom: 15px;
     padding-left: 25px;
@@ -79,121 +79,125 @@ p {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
-#containerAccessories img
-{
+
+#containerAccessories img {
     width: 100%;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
-#details
-{
+
+#details {
     padding: 0 15px;
     text-transform: capitalize;
 }
-#box a 
-{
+
+#box a {
     text-decoration: none;
     color: rgb(29, 29, 29);
 }
-h3
-{
+
+h3 {
     font-size: 16px;
 }
-h4
-{
+
+h4 {
     font-weight: 100;
 }
-h2
-{
+
+h2 {
     color: rgb(3, 94, 94);
 }
 
 /* ----------------------------- MEDIA QUERY --------------------------- */
 
-@media(max-width: 1070px)
-{
-    h1
-    {
+@media(max-width: 1070px) {
+    h1 {
         font-size: 25px;
     }
-    #containerClothing, #containerAccessories
-    {
+
+    #containerClothing,
+    #containerAccessories {
         width: 95%;
         grid-gap: 10px;
     }
-          #box {
-              width: 110%;
-              grid-gap: 20px 20px
-          }
+
+    #box {
+        width: 110%;
+        grid-gap: 20px 20px
+    }
 }
-@media(max-width: 850px)
-{
-    h1 
-    {
+
+@media(max-width: 850px) {
+    h1 {
         width: 80%;
     }
-    #containerClothing, #containerAccessories
-    {
+
+    #containerClothing,
+    #containerAccessories {
         display: grid;
         grid-gap: 70px 20px;
         grid-template-columns: repeat(3, 1fr);
         width: 80%;
-    } 
-    #box{
+    }
+
+    #box {
         width: 110%;
         grid-gap: 20px 20px
-         }
+    }
 
 }
-@media(max-width: 650px)
-{
-    h1
-    {
+
+@media(max-width: 650px) {
+    h1 {
         font-size: 20px;
     }
-    h1 
-    {
+
+    h1 {
         width: 90%;
     }
-    #containerClothing, #containerAccessories
-    {
+
+    #containerClothing,
+    #containerAccessories {
         width: 90%;
     }
-          #box {
-              width: 110%;
-              grid-gap: 20px 20px
-          }
+
+    #box {
+        width: 110% !important;
+
+    }
 }
-@media(max-width: 600px)
-{
-    h1 
-    {
+
+@media(max-width: 600px) {
+    h1 {
         width: 70%;
     }
-    #containerClothing, #containerAccessories
-    {
+
+    #containerClothing,
+    #containerAccessories {
         width: 70%;
     }
-         #box {
-              width: 110%;
-              grid-gap: 20px 20px
-          }
+
+    #box {
+        width: 110% !important;
+
+    }
 }
-@media(max-width: 505px)
-{
-    h1 
-    {
+
+@media(max-width: 505px) {
+    h1 {
         width: 80%;
     }
-    #containerClothing, #containerAccessories
-    {
+
+    #containerClothing,
+    #containerAccessories {
         width: 80%;
         grid-template-columns: repeat(2, 1fr);
     }
-          #box {
-              width: 110%;
-              grid-gap: 20px 20px
-          }
+
+    #box {
+        width: 110% !important;
+
+    }
 }
 
 
@@ -264,6 +268,14 @@ h2
     #ordersContainer {
         flex-direction: column;
         align-items: center;
+    }
+
+    #box {
+        width: 110% !important;
+        background-color: white;
+        align-content: center;
+        border-radius: 10px;
+        box-shadow: 1px 2px 6px 2px rgb(219, 219, 219);
     }
 }
 

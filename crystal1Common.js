@@ -97,3 +97,26 @@ function updatePaginationControls() {
     paginationContainer.appendChild(button);
   }
 }
+
+
+  document.addEventListener("DOMContentLoaded", function() {
+    // fetchProducts(currentPage);  // Fetch products for the first page
+
+    document.getElementById("sort-price-asc").addEventListener("click", function() {
+        sortProductsByPrice("asc", currentPage);
+    });
+
+    document.getElementById("sort-price-desc").addEventListener("click", function() {
+        sortProductsByPrice("desc", currentPage);
+    });
+});
+
+function sortProductsByPrice(order, currentPage) {
+    if (order === "asc") {
+        allProducts.sort((a, b) => a.price - b.price);
+    } else if (order === "desc") {
+        allProducts.sort((a, b) => b.price - a.price);
+    }
+        displayProducts(currentPage);
+        updatePaginationControls();
+}
