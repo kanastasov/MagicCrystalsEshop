@@ -19,7 +19,7 @@ h1 {
     display: grid;
     grid-gap: 20px 0px;
     grid-template-columns: repeat(4, 1fr);
-    width: 23%;
+    width: 40%;
     margin: auto;
     padding-bottom: 40px;
 }
@@ -39,7 +39,7 @@ p {
     /* Softens edges */
     text-align: justify;
     /* Makes text evenly distributed */
-    max-width: 1300px;
+    /* max-width: 1300px; */
     /* Prevents extremely wide paragraphs */
     margin: 10px 10px;
     /* Centers the paragraph */
@@ -50,8 +50,6 @@ p {
 
 #containerData {
     display: grid;
-    /* grid-gap: 70px 20px; */
-    /* grid-template-columns: repeat(4, 1fr); */
     width: 50%;
     margin: auto;
     /* padding-bottom: 40px; */
