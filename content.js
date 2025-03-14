@@ -2,7 +2,7 @@ let contentTitle;
 let currentPage = 1;
 const itemsPerPage = 12;
 let allProducts = [];
-
+let  totalPagesGlobal;
 console.log(document.cookie);
 
 function dynamicClothingSection(ob) {
@@ -141,7 +141,7 @@ function updatePaginationUI(totalPages) {
 
 function fetchProducts(page = 1) {
     let tempUrl = window.config && window.config.URL ? window.config.URL : "https://api.magiccrystals.bg";
-fetch(`${tempUrl}/api/products?page=${page}&limit=${itemsPerPage}`)
+    fetch(`${tempUrl}/api/products?page=${page}&limit=${itemsPerPage}`)
     .then(response => {
         if (!response.ok) {
             throw new Error("Failed to fetch products");
@@ -155,6 +155,7 @@ fetch(`${tempUrl}/api/products?page=${page}&limit=${itemsPerPage}`)
         console.log("Updated allProducts:", JSON.stringify(allProducts, null, 2)); // Check contents
 
         const totalPages = data.totalPages || 1;
+        totalPagesGlobal= totalPages;
         displayProducts(page);
         updatePaginationUI(totalPages);
     })
@@ -163,6 +164,28 @@ fetch(`${tempUrl}/api/products?page=${page}&limit=${itemsPerPage}`)
  
 }
 
+
+document.addEventListener("DOMContentLoaded", function() {
+    fetchProducts(currentPage);  // Fetch products for the first page
+
+    document.getElementById("sort-price-asc").addEventListener("click", function() {
+        sortProductsByPrice("asc", currentPage);
+    });
+
+    document.getElementById("sort-price-desc").addEventListener("click", function() {
+        sortProductsByPrice("desc", currentPage);
+    });
+});
+
+function sortProductsByPrice(order, currentPage) {
+    if (order === "asc") {
+        allProducts.sort((a, b) => a.price - b.price);
+    } else if (order === "desc") {
+        allProducts.sort((a, b) => b.price - a.price);
+    }
+        displayProducts(currentPage);
+        updatePaginationUI(totalPagesGlobal);
+}
 
 
 

@@ -25,14 +25,20 @@ app.use(orderRoutes);
 //               // Allow cookies/session
 // }));
 // MySQL Database Connection
-
-
 // const db = mysql.createConnection({
 //     host: "localhost",
-//     user: "root",  // Change if your MySQL username is different
-//     password: "ROOT",  // Change if you have a MySQL password
-//     database: "magiccrystals",  // Replace with your actual database name
+//     user: "magi1axr_admin",  
+//     password: "magiccrystals",  // Change if you have a MySQL password
+//     database: "magi1axr_magiccrystals",  // Replace with your actual database name
 // });
+
+
+const db = mysql.createConnection({
+    host: "localhost",
+    user: "root",  // Change if your MySQL username is different
+    password: "ROOT",  // Change if you have a MySQL password
+    database: "magiccrystals",  // Replace with your actual database name
+});
 
 
 db.connect((err) => {
