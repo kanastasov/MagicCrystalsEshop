@@ -64,11 +64,12 @@ p {
     overflow: hidden;
     /* Ensures contents do not overflow */
     text-align: center;
-    /* Centers text */
+    padding-right: 20px;
 }
 /* Ensure image resizes with box */
 #box img {
-    width: 100%;
+    width: calc(100% - 15px);
+        /* Reduces image width by 10px */
     height: auto;
     /* Maintains aspect ratio */
     border-top-left-radius: 10px;
