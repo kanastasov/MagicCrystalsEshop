@@ -143,6 +143,44 @@ app.get("/api/products/:id", (req, res) => {
     
 });
 
+// ==========================
+// 🚀 API Routes for Reviews
+// ==========================
+
+// 📌 GET all reviews for a product
+app.get("/api/reviews/:crystal_id", (req, res) => {
+    const { crystal_id } = req.params;
+    
+    const sql = "SELECT * FROM reviews WHERE crystal_id = ?";
+    db.query(sql, [crystal_id], (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.json(results);
+    });
+});
+
+// 📌 POST a new review
+app.post("/api/reviews", (req, res) => {
+    const { crystal_id, name, rating, reviewText } = req.body;
+
+    console.log(req.body)
+    if (!crystal_id || !name || !rating || !reviewText) {
+        return res.status(400).json({ error: "All fields are required" + error });
+    }
+
+    const sql = "INSERT INTO reviews (crystal_id, name, rating, review_text) VALUES (?, ?, ?, ?)";
+    db.query(sql, [crystal_id, name, rating, reviewText], (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.json({ message: "Review added successfully", reviewId: result.insertId });
+    });
+});
+
+// ==========================
+// 🚀 API Routes for Reviews
+// ==========================
 
 // API Endpoint to Fetch a Single preview by ID
 app.get("/api/preview/:id", (req, res) => {
