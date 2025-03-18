@@ -41,6 +41,10 @@ const db = mysql.createConnection({
 });
 
 
+// Start the Server
+const PORT = 8080;
+const PORT2 = 3000;
+
 db.connect((err) => {
     if (err) {
         console.error("Database connection failed: " + err.stack);
@@ -499,9 +503,7 @@ const verifyToken = (req, res, next) => {
 };
 
 
-// Start the Server
-const PORT = 8080;
-const PORT2 = 3000;
+
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
