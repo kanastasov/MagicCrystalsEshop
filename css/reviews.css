@@ -66,3 +66,22 @@
 .star.selected {
     color: gold;
 }
+
+.review-section {
+    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+    /* Aligns items to the start of the container */
+    margin: 20px 80px;
+    /* Adds vertical spacing between review sections */
+}
+
+.review-section h2 {
+    margin: 0 0 10px 0;
+    /* Adjusts spacing around the <h2> */
+}
+
+.review-content {
+    padding: 10px;
+    margin: 0;
+}
