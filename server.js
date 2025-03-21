@@ -162,16 +162,16 @@ app.get("/api/reviews/:crystal_id", (req, res) => {
 
 // 📌 POST a new review
 app.post("/api/reviews", (req, res) => {
-    const { crystal_id, name, rating, reviewText } = req.body;
+    const { crystal_id, name, rating, review_text } = req.body;
 
     console.log("Received Data:", req.body); // Debugging
 
-    if (!crystal_id || !rating || !reviewText) {
+    if (!crystal_id || !rating || !review_text) {
         return res.status(400).json({ error: "All fields are required" });
     }
 
     const sql = "INSERT INTO reviews (crystal_id, name, rating, review_text) VALUES (?, ?, ?, ?)";
-    db.query(sql, [crystal_id, name, rating, reviewText], (err, result) => {
+    db.query(sql, [crystal_id, name, rating, review_text], (err, result) => {
         if (err) {
             console.error("Database Error:", err);
             return res.status(500).json({ error: "Database error", details: err.message });

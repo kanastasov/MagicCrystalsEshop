@@ -117,7 +117,9 @@
                 let stars = document.querySelectorAll("#rating .star");
                 let selectedRating = 0;
                  let params = new URLSearchParams(location.search);
-                  let crystalId = params.get('id');
+                 let crystalId = location.search.split('?')[1]
+
+
 
                  console.log("Extracted ID:", crystalId);
 
@@ -155,6 +157,7 @@
                         name: name,
                         rating: selectedRating,
                         review_text: review_text
+                        
                     };
 
                     try {
