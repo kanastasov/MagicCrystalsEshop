@@ -164,19 +164,22 @@ app.get("/api/reviews/:crystal_id", (req, res) => {
 app.post("/api/reviews", (req, res) => {
     const { crystal_id, name, rating, reviewText } = req.body;
 
-    console.log(req.body)
-    if (!crystal_id || !name || !rating || !reviewText) {
-        return res.status(400).json({ error: "All fields are required" + error });
+    console.log("Received Data:", req.body); // Debugging
+
+    if (!crystal_id || !rating || !reviewText) {
+        return res.status(400).json({ error: "All fields are required" });
     }
 
     const sql = "INSERT INTO reviews (crystal_id, name, rating, review_text) VALUES (?, ?, ?, ?)";
     db.query(sql, [crystal_id, name, rating, reviewText], (err, result) => {
         if (err) {
-            return res.status(500).json({ error: err.message });
+            console.error("Database Error:", err);
+            return res.status(500).json({ error: "Database error", details: err.message });
         }
         res.json({ message: "Review added successfully", reviewId: result.insertId });
     });
 });
+
 
 // ==========================
 // 🚀 API Routes for Reviews

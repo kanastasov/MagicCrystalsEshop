@@ -100,21 +100,24 @@ function updateStars() {
     });
 }
 
-// Submit review when the submit button is clicked
-document.getElementById('submit-review').addEventListener('click', () => {
-    const reviewText = document.getElementById('review-text').value;
+document.getElementById('reviewForm').addEventListener('submit', (event) => {
+    event.preventDefault(); // Prevent page refresh
+
+    const reviewText = document.getElementById('review-text').value.trim();
+    console.log("Review Text:", reviewText); // Debugging
 
     if (selectedRating === 0) {
-        alert("Please select a rating.");
+        alert("Моля, изберете рейтинг.");
         return;
     }
 
-    if (reviewText.trim() === "") {
-        alert("Please write a review.");
+    if (!reviewText) {
+        alert("Моля, напишете отзив.");
         return;
     }
 
-    // Prepare data to be sent (could be sent to a backend or saved in localStorage for example)
+    console.log("Selected Rating:", selectedRating);
+
     const reviewData = {
         rating: selectedRating,
         review: reviewText,
@@ -122,7 +125,6 @@ document.getElementById('submit-review').addEventListener('click', () => {
 
     console.log("Review Data:", reviewData);
 
-    // For example, send the review data to a backend via AJAX
     fetch('/submit-review', {
         method: 'POST',
         headers: {
@@ -132,13 +134,12 @@ document.getElementById('submit-review').addEventListener('click', () => {
     })
     .then(response => response.json())
     .then(data => {
-        alert('Review submitted successfully!');
-        // Reset the form
+        alert('Отзивът е изпратен успешно!');
         selectedRating = 0;
         updateStars();
         document.getElementById('review-text').value = '';
     })
     .catch(error => {
-        console.error('Error submitting review:', error);
+        console.error('Грешка при изпращане на отзива:', error);
     });
 });

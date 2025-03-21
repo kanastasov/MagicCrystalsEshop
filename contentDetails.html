@@ -1,58 +1,227 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bg">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title> CONTENT DETAILS | Magic Crystals</title>
     <!-- favicon -->
-    <link rel="icon" href="https://yt3.ggpht.com/a/AGF-l78km1YyNXmF0r3-0CycCA0HLA_i6zYn_8NZEg=s900-c-k-c0xffffffff-no-rj-mo" type="image/gif" sizes="16x16">
-    <!-- <link rel="stylesheet" href="/box1.css"> -->
+    <link rel="icon"
+        href="https://yt3.ggpht.com/a/AGF-l78km1YyNXmF0r3-0CycCA0HLA_i6zYn_8NZEg=s900-c-k-c0xffffffff-no-rj-mo"
+        type="image/gif" sizes="16x16">
     <link rel="stylesheet" href="css/contetDetails.css">
+    <link rel="stylesheet" href="css/reviews.css">
     <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
-    <!-- header links -->
     <script src="https://kit.fontawesome.com/4a3b1f73a2.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
     <script src="config.js"></script>
-
 </head>
 
 <body>
-<!-- HEADER -->
-<div id="1"></div>
-<script>
-    load("header.html");
-    function load(url)
-    {
-        req = new XMLHttpRequest();
-        req.open("GET", url, false);
-        req.send(null);
-        document.getElementById(1).innerHTML = req.responseText;
-    }
-</script>
-    
+    <!-- HEADER -->
+    <div id="header"></div>
+    <script>
+        fetch("header.html")
+            .then(response => response.text())
+            .then(data => document.getElementById("header").innerHTML = data);
+    </script>
+
     <div id="containerProduct">
-        <!-- JS rendered code -->
+        <!-- JS rendered content details -->
     </div>
-    
-<script src="/contentDetails.js"></script>
-<!-- <script src="/contentDetailsReviews.js"></script> -->
+
+    <!-- Reviews Section -->
+    <div class="review-section">
+        <h2>Добавете вашия отзив</h2>
+        <form id="reviewForm">
+            <div id="review-container">
+                <div id="rating">
+                    <span class="star" data-value="1">&#9733;</span>
+                    <span class="star" data-value="2">&#9733;</span>
+                    <span class="star" data-value="3">&#9733;</span>
+                    <span class="star" data-value="4">&#9733;</span>
+                    <span class="star" data-value="5">&#9733;</span>
+                </div>
+                <div id="review-form">
+                    <textarea id="review-text" placeholder="Напишете ревю..."></textarea>
+                    <button id="submit-review">Добавете ревю</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="review-section">
+        <h2>Отзиви</h2>
+    </div>
+    <div id="reviewList"></div>
+
+    <script src="contentDetails.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
+            let stars = document.querySelectorAll("#rating .star");
+            let selectedRating = 0;
+
+            function displayReviews() {
+                let reviewList = document.getElementById("reviewList");
+                reviewList.innerHTML = "";
+                reviews.forEach(review => {
+                    let reviewDiv = document.createElement("div");
+                    reviewDiv.classList.add("review");
+                    let stars = "★".repeat(review.rating) + "☆".repeat(5 - review.rating);
+                    reviewDiv.innerHTML = `<strong>${stars}</strong><br>${review.text}`;
+                    reviewList.appendChild(reviewDiv);
+                });
+            }
+
+            stars.forEach(star => {
+                star.addEventListener("mouseover", function () {
+                    let rating = parseInt(this.getAttribute("data-value"));
+                    updateStarSelection(rating);
+                });
+
+                star.addEventListener("click", function () {
+                    selectedRating = parseInt(this.getAttribute("data-value"));
+                    updateStarSelection(selectedRating);
+                });
+            });
+
+            function updateStarSelection(rating) {
+                stars.forEach(star => {
+                    let starValue = parseInt(star.getAttribute("data-value"));
+                    star.classList.toggle("selected", starValue <= rating);
+                });
+            }
+
+            document.getElementById("reviewForm").addEventListener("submit", function (event) {
+                event.preventDefault();
+                let review_text = document.getElementById("review-text").value.trim();
+                if (review_text && selectedRating > 0) {
+                    reviews.push({ text: review_text, rating: selectedRating });
+                    localStorage.setItem("reviews", JSON.stringify(reviews));
+                    document.getElementById("review-text").value = "";
+                    selectedRating = 0;
+                    updateStarSelection(0);
+                    displayReviews();
+                } else {
+                    alert("Моля, въведете отзив и изберете рейтинг!");
+                }
+            });
+
+            displayReviews();
+        });
 
 
 
-<!-- FOOTER -->
-<div id="4"></div>
-<script>
-    load("footer.html");
-    function load(url)
-    {
-        req = new XMLHttpRequest();
-        req.open("GET", url, false);
-        req.send(null);
-        document.getElementById(4).innerHTML = req.responseText;
-    }
-</script>
+        document.addEventListener("DOMContentLoaded", function () {
+                let stars = document.querySelectorAll("#rating .star");
+                let selectedRating = 0;
+                 let params = new URLSearchParams(location.search);
+                  let crystalId = params.get('id');
+
+                 console.log("Extracted ID:", crystalId);
 
 
+                function updateStarSelection(rating) {
+                    stars.forEach(star => {
+                        star.classList.toggle("selected", parseInt(star.dataset.value) <= rating);
+                    });
+                }
+
+                stars.forEach(star => {
+                    star.addEventListener("mouseover", function () {
+                        updateStarSelection(parseInt(this.dataset.value));
+                    });
+
+                    star.addEventListener("click", function () {
+                        selectedRating = parseInt(this.dataset.value);
+                        updateStarSelection(selectedRating);
+                    });
+                });
+
+                document.getElementById("submit-review").addEventListener("click", async function (event) {
+                    event.preventDefault();
+
+                    let review_text = document.getElementById("review-text").value.trim();
+                    let name = "Anonymous"; // Change this if you have a user authentication system
+
+                    if (!review_text || selectedRating === 0) {
+                        alert("Моля, въведете отзив и изберете рейтинг!");
+                        return;
+                    }
+
+                    let reviewData = {
+                        crystal_id: crystalId,
+                        name: name,
+                        rating: selectedRating,
+                        review_text: review_text
+                    };
+
+                    try {
+                        let response = await fetch(`${window.config.URL}/api/reviews`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(reviewData)
+                        });
+
+                        let result = await response.json();
+
+                        if (response.ok) {
+                            alert("Ревюто беше добавено успешно!");
+                            document.getElementById("review-text").value = "";
+                            selectedRating = 0;
+                            updateStarSelection(0);
+                            fetchReviews(crystalId); // Refresh reviews after posting
+                        } else {
+                            alert("Грешка: " + result.error);
+                        }
+                    } catch (error) {
+                        console.error("Error submitting review:", error);
+                        alert("Неуспешно добавяне на ревю!");
+                    }
+                });
+
+                function fetchReviews(crystalId) {
+                    fetch(`${window.config.URL}/api/reviews/${crystalId}`)
+                        .then(response => response.json())
+                        .then(reviews => {
+                            let reviewList = document.getElementById("reviewList");
+                            reviewList.innerHTML = ""; // Clear previous reviews
+
+                            reviews.forEach(review => {
+                                let reviewDiv = document.createElement("div");
+                                reviewDiv.classList.add("review");
+
+                                let stars = "★".repeat(review.rating) + "☆".repeat(5 - review.rating);
+                                reviewDiv.innerHTML = `<strong>${review.name}</strong>: ${stars}<br>${review.review_text}`;
+                                reviewList.appendChild(reviewDiv);
+                            });
+                        })
+                        .catch(error => console.error("Error fetching reviews:", error));
+                }
+
+                // Fetch reviews on page load
+                if (crystalId) {
+                    fetchReviews(crystalId);
+                }
+            });
+
+
+
+    </script>
+
+
+
+
+    <!-- FOOTER -->
+    <div id="footer"></div>
+    <script>
+        fetch("footer.html")
+            .then(response => response.text())
+            .then(data => document.getElementById("footer").innerHTML = data);
+    </script>
 </body>
+
 </html>
