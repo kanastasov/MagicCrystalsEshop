@@ -35,6 +35,9 @@
         <h2>Добавете вашия отзив</h2>
         <form id="reviewForm">
             <div id="review-container">
+                <div id="name-input">
+                    <input type="text" id="user-name" placeholder="Вашето име (по избор)">
+                </div>
                 <div id="rating">
                     <span class="star" data-value="1">&#9733;</span>
                     <span class="star" data-value="2">&#9733;</span>
@@ -145,7 +148,7 @@
                     event.preventDefault();
 
                     let review_text = document.getElementById("review-text").value.trim();
-                    let name = "Anonymous"; // Change this if you have a user authentication system
+                    let userName = document.getElementById("user-name").value.trim() || "Anonymous"; // Default to "Anonymous" if blank
 
                     if (!review_text || selectedRating === 0) {
                         alert("Моля, въведете отзив и изберете рейтинг!");
@@ -154,7 +157,7 @@
 
                     let reviewData = {
                         crystal_id: crystalId,
-                        name: name,
+                        name: userName,
                         rating: selectedRating,
                         review_text: review_text
                         
@@ -174,6 +177,7 @@
                         if (response.ok) {
                             alert("Ревюто беше добавено успешно!");
                             document.getElementById("review-text").value = "";
+                            document.getElementById("user-name").value = ""; // Reset the name input
                             selectedRating = 0;
                             updateStarSelection(0);
                             fetchReviews(crystalId); // Refresh reviews after posting

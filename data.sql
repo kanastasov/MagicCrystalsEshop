@@ -449,3 +449,132 @@ VALUES
    'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/55.jpg');
    
    
+
+         INSERT INTO `crystals` (`name`, `description`, `price`, `type`, `image_url`) 
+VALUES 
+   
+   
+        ('Пепелници оникс', 'Открийте изящни, ръчно изработени бижута, които съчетават елегантност, качество и неподражаем стил за всеки повод.', 40, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/81.jpg'),
+   
+        ('Гривни', 'Гривни 30лв,40,45-48лв зависи какъв камък тигрово око,лабрадорит, содалит,тюркоаз,аметист,цитрин,планински кристал,ахат,розов кварц ,мокаид,родонит,малинов кварц,лазурит,опал,карнеол,авантюрин и др.', 30, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/82.jpg'),
+   
+      
+              ('Гривни', 'Гривни 30лв,40,45-48лв зависи какъв камък тигрово око,лабрадорит, содалит,тюркоаз,аметист,цитрин,планински кристал,ахат,розов кварц ,мокаид,родонит,малинов кварц,лазурит,опал,карнеол,авантюрин и др.', 30, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/83.jpg'),
+
+           ('Гривни', 'Гривни 30лв,40,45-48лв зависи какъв камък тигрово око,лабрадорит, содалит,тюркоаз,аметист,цитрин,планински кристал,ахат,розов кварц ,мокаид,родонит,малинов кварц,лазурит,опал,карнеол,авантюрин и др.', 30, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/84.jpg'),
+
+
+
+        ('Пирамиди тигрово', 'Пирамиди тигрово 42лв  око,аметист 36лв и лапис лазули 42лв', 42, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/56.jpg'),
+
+
+
+
+        ('Комплект гривна,гердан и обеци 48лв Аметист', 'Открийте изящни, ръчно изработени бижута, които съчетават елегантност, качество и неподражаем стил за всеки повод.', 48, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/57.jpg'),
+
+
+
+
+        ('Тюркоаз', 'Открийте изящни, ръчно изработени бижута, които съчетават елегантност, качество и неподражаем стил за всеки повод.', 48, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/58.jpg'),
+
+
+
+        ('Лазурит', 'Открийте изящни, ръчно изработени бижута, които съчетават елегантност, качество и неподражаем стил за всеки повод.', 48, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/59.jpg'),
+
+
+        ('Опалит', 'Открийте изящни, ръчно изработени бижута, които съчетават елегантност, качество и неподражаем стил за всеки повод.', 48, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/60.jpg'),
+
+
+        ('Тигрово око', 'Открийте изящни, ръчно изработени бижута, които съчетават елегантност, качество и неподражаем стил за всеки повод.', 48, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/61.jpg'),
+
+
+        ('Малахит', 'Открийте изящни, ръчно изработени бижута, които съчетават елегантност, качество и неподражаем стил за всеки повод.', 48, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/62.jpg'),
+
+
+        ('Седеф', 'Открийте изящни, ръчно изработени бижута, които съчетават елегантност, качество и неподражаем стил за всеки повод.', 48, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/63.jpg'),
+
+   
+        ('Розов кварц', 'Открийте изящни, ръчно изработени бижута, които съчетават елегантност, качество и неподражаем стил за всеки повод.', 48, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/64.jpg'),
+
+
+   
+        ('Карнеол', 'Открийте изящни, ръчно изработени бижута, които съчетават елегантност, качество и неподражаем стил за всеки повод.', 48, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/65.jpg'),
+
+   
+        ('Слънчев камък', 'Открийте изящни, ръчно изработени бижута, които съчетават елегантност, качество и неподражаем стил за всеки повод.', 48, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/66.jpg'),
+
+   
+    ('Слънчев камък', 'Открийте изящни, ръчно изработени бижута, които съчетават елегантност, качество и неподражаем стил за всеки повод.', 48, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/68.jpg'),
+
+       ('Гривна бисмут', 'Открийте изящни, ръчно изработени бижута, които съчетават елегантност, качество и неподражаем стил за всеки повод.', 48, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/69.jpg'),
+
+
+
+
+        ('Гривна кианит', 'Гривна кианит 100лв камъкът ,който не натрупва отрицателни енергии,носи спокойствие и релаксация. Дарява с вдъхновение и успех.', 100, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/70.jpg'),
+
+   ('Чароит гривна', 'Чароит гривна 100лв камъкът на духа и духовната проницателност.Той преобразува негативната енергия в лечебна,дава стремеж, жизненост и е способен да намали стреса и безпокойството.Това е камъкът на трансформацията', 100, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/71.jpg'),
+
+      ('Аквамарин камъкът', '100лв аквамарин камъкът  дарява спокойствие,помага за намаляване на стреса и постигане на вътрешен мир.', 100, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/72.jpg'),
+
+      ('Черен турмалин', '100лв Черен турмалин - той е един от най-мощните кристали за защита.Има способността да пречиства вашата енергия, да предпазва от отрицателни влияния.Подходящ за всички зодии.', 100, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/73.jpg'),
+
+   ('Гривна с многоцветни мъниста', 'Открийте изящни, ръчно изработени бижута, които съчетават елегантност, качество и неподражаем стил за всеки повод.', 30, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/74.jpg'),
+
+  ('Гривна мъниста', 'Открийте изящни, ръчно изработени бижута, които съчетават елегантност, качество и неподражаем стил за всеки повод.', 30, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/75.jpg'),
+
+
+   ('Висулка от аметист', 'Открийте изящни, ръчно изработени бижута, които съчетават елегантност, качество и неподражаем стил за всеки повод.', 25, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/76.jpg'),
+
+      ('Гердан Балтийски Кехлибар', 'Открийте изящни, ръчно изработени бижута, които съчетават елегантност, качество и неподражаем стил за всеки повод.', 45, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/77.jpg'),
+
+      ('Гердан Балтийски Кехлибар', 'Открийте изящни, ръчно изработени бижута, които съчетават елегантност, качество и неподражаем стил за всеки повод.', 45, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/78.jpg'),
+
+   ('Гердан Кехлибар', 'Открийте изящни, ръчно изработени бижута, които съчетават елегантност, качество и неподражаем стил за всеки повод.', 40, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/79.jpg'),
+
+      ('Детски гердан кехлибар', 'Открийте изящни, ръчно изработени бижута, които съчетават елегантност, качество и неподражаем стил за всеки повод.', 35, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/80.jpg');
+
+
+
+   
+
+
+CREATE TABLE `reviews` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `crystal_id` int NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `rating` int NOT NULL,
+  `review_text` text COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `reviews_chk_1` CHECK ((`rating` between 1 and 5))
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+SELECT * FROM magiccrystals.admins;

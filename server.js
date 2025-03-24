@@ -43,7 +43,7 @@ const db = mysql.createConnection({
 
 // Start the Server
 const PORT = 8080;
-const PORT2 = 3000;
+const PORT3 = 3000;
 
 db.connect((err) => {
     if (err) {
