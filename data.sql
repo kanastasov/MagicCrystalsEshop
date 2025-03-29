@@ -563,10 +563,6 @@ VALUES
    'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/80.jpg');
 
 
-
-   
-
-
 CREATE TABLE `reviews` (
   `id` int NOT NULL AUTO_INCREMENT,
   `crystal_id` int NOT NULL,
@@ -578,3 +574,52 @@ CREATE TABLE `reviews` (
   CONSTRAINT `reviews_chk_1` CHECK ((`rating` between 1 and 5))
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 SELECT * FROM magiccrystals.admins;
+
+
+      INSERT INTO `crystals` (`name`, `description`, `price`, `type`, `image_url`) 
+VALUES 
+  ('Таро карти', 'Таро карти 45лв', 45, 'Езотерични продукти', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/4%20Екзотерични/5.jpg'),
+   
+     ('Таро оракулски карти за гадаене', 'Таро оракулски карти за гадаене 45лв', 45, 'Езотерични продукти', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/4%20Екзотерични/6.jpg'),
+   
+   
+     ('Телепатично Оракулно Тесте', 'Телепатично Оракулно Тесте с 56 Карти за Яснота и Гадаене и таро карти Градината на вещицата Тесте от 78 карти', 48, 'Езотерични продукти', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/4%20Екзотерични/7.jpg'),
+   
+     ('Карти руни', 'Карти руни 48лв', 48, 'Езотерични продукти', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/4%20Екзотерични/8.jpg'),
+   
+   
+     ('Романтични ангелски оракулски карти', 'Романтични ангелски оракулски карти 44 карти подходящи и за начинаещи', 55, 'Езотерични продукти', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/4%20Екзотерични/9.jpg');
+   
+   
+         INSERT INTO `crystals` (`name`, `description`, `price`, `type`, `image_url`) 
+VALUES 
+  ('Амулет за изобилие на дома', 'Амулет за изобилие на дома 55лв', 55, 'Друзи', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/2%20Друзи/40.jpg'),
+   
+     ('Кристални висулки', 'Кристални висулки 28лв различни видове тюркоаз,малахит,авантюрин, опал,аквамарин и др.', 28, 'Друзи', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/2%20Друзи/41.jpg'),
+   
+     ('Висулки различни видове', 'Висулки различни видове 20лв', 20, 'Друзи', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/2%20Друзи/42.jpg'),
+   
+     ('Висулки аметист', 'Висулки аметист 20 лв', 20, 'Друзи', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/2%20Друзи/43.jpg'),
+   
+     ('Бисмут', 'Бисмут 28, 32, 45, 80лв', 28, 'Друзи', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/2%20Друзи/44.jpg');
+   
+
+               INSERT INTO `crystals` (`name`, `description`, `price`, `type`, `image_url`) 
+VALUES 
+   
+   
+        ('Гривни черен обсидиан и лава', 'Гривни черен обсидиан и лава с 7те камъка чакри 30лв', 30, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/85.jpg'),
+   
+     ('Ключодържател с котка на късмета и монети', '18лв Ключодържател с котка на късмета и монети на 5те императора', 18, 'бижута', 
+   'https://cdn.jsdelivr.net/gh/kanastasov/MagicCrystalsEshop@master/img/15бижута/85.jpg');
