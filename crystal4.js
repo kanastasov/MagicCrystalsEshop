@@ -1,5 +1,6 @@
 
-let productType = "Минерали и Кристали от България"; // Define the variable
+// let productType = "Минерали и Кристали от България"; // Define the variable
+let productType = "Езотерични продукти"; // Define the variable
 
 let currentUrl = window.config && window.config.URL ? window.config.URL : "https://api.magiccrystals.bg";
 

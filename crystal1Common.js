@@ -99,16 +99,24 @@ function updatePaginationControls() {
 }
 
 
-  document.addEventListener("DOMContentLoaded", function() {
-    // fetchProducts(currentPage);  // Fetch products for the first page
+document.addEventListener("DOMContentLoaded", function() {
+    const sortAscBtn = document.getElementById("sort-price-asc");
+    const sortDescBtn = document.getElementById("sort-price-desc");
 
-    document.getElementById("sort-price-asc").addEventListener("click", function() {
-        sortProductsByPrice("asc", currentPage);
-    });
+      if (!sortAscBtn || !sortDescBtn) {
+        console.warn("Sort buttons not found in DOM.");
+    }
+    if (sortAscBtn) {
+        sortAscBtn.addEventListener("click", function() {
+            sortProductsByPrice("asc", currentPage);
+        });
+    }
 
-    document.getElementById("sort-price-desc").addEventListener("click", function() {
-        sortProductsByPrice("desc", currentPage);
-    });
+    if (sortDescBtn) {
+        sortDescBtn.addEventListener("click", function() {
+            sortProductsByPrice("desc", currentPage);
+        });
+    }
 });
 
 function sortProductsByPrice(order, currentPage) {
